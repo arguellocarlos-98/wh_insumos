@@ -1,7 +1,7 @@
 # 🌐 REST API - Proyecto
 
-![GitHub stars](https://img.shields.io/github/stars/tuusuario/turepo?style=social)
-![GitHub forks](https://img.shields.io/github/forks/tuusuario/turepo?style=social)
+![GitHub stars](https://img.shields.io/github/stars/arguellocarlos-98/wh_insumos?style=social)
+![GitHub forks](https://img.shields.io/github/forks/arguellocarlos-98/wh_insumos?style=social)
 ![License](https://img.shields.io/github/license/arguellocarlos-98/wh_insumos)
 ![Issues](https://img.shields.io/github/issues/rguellocarlos-98/wh_insumos)
 
@@ -19,19 +19,31 @@ Su objetivo es proporcionar un backend escalable y sencillo para manejar recurso
 ## 🛠️ Tecnologías
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
-- [MySQL] (https://mariadb.org/)
+- [MySQL](https://mariadb.org/)
 - [JWT](https://jwt.io/)
 - [Swagger](https://swagger.io/)
 
 ## 📂 Estructura del proyecto
 ```bash
-📦 proyecto-restapi
+📦 WH_INSUMO
  ┣ 📂 src
- ┃ ┣ 📂 routes      # Rutas de la API
- ┃ ┣ 📂 controllers # Lógica de negocio
- ┃ ┣ 📂 models      # Modelos de datos
+ ┃ ┣ 📂 config      # Rutas de la API
+ ┃ ┣ 📂 controllers      # Rutas de la API
+ ┃ ┣ 📂 db # Lógica de negocio
+ ┃ ┣ 📂 functions      # Modelos de datos
+ ┃ ┣ 📂 logs # Middlewares personalizados
  ┃ ┣ 📂 middlewares # Middlewares personalizados
- ┃ ┗ 📜 app.js      # Punto de entrada
+ ┃ ┣ 📂 models # Middlewares personalizados
+ ┃ ┣ 📂 queries # Middlewares personalizados
+ ┃ ┣ 📂 routes # Middlewares personalizados
+ ┃ ┣ 📂 uploads # Middlewares personalizados
+ ┃ ┣ 📂 utils # Middlewares personalizados
+ ┃ ┗ 📜 index.js      # Punto de entrada
+ ┣ 📜 .env
+ ┣ 📜 .gitignore
+ ┣ 📜 .env.example.js
+ ┣ 📜 .env.js
+ ┣ 📜 package-lock.json
  ┣ 📜 package.json
  ┣ 📜 README.md
- ┗ 📜 .env.example
+ ┗ 📜 run.sh
