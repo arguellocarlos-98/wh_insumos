@@ -3,7 +3,7 @@
 ![GitHub stars](https://img.shields.io/github/stars/arguellocarlos-98/wh_insumos?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/arguellocarlos-98/wh_insumos?style=social)
 ![License](https://img.shields.io/github/license/arguellocarlos-98/wh_insumos)
-![Issues](https://img.shields.io/github/issues/rguellocarlos-98/wh_insumos)
+![Issues](https://img.shields.io/github/issues/arguellocarlos-98/wh_insumos)
 
 ## 📌 Descripción
 Esta es una **REST API** construida con [Node.js](https://nodejs.org/) y [Express](https://expressjs.com/).  
@@ -27,18 +27,18 @@ Su objetivo es proporcionar un backend escalable y sencillo para manejar recurso
 ```bash
 📦 WH_INSUMO
  ┣ 📂 src
- ┃ ┣ 📂 config      # Rutas de la API
- ┃ ┣ 📂 controllers      # Rutas de la API
- ┃ ┣ 📂 db # Lógica de negocio
- ┃ ┣ 📂 functions      # Modelos de datos
- ┃ ┣ 📂 logs # Middlewares personalizados
- ┃ ┣ 📂 middlewares # Middlewares personalizados
- ┃ ┣ 📂 models # Middlewares personalizados
- ┃ ┣ 📂 queries # Middlewares personalizados
- ┃ ┣ 📂 routes # Middlewares personalizados
- ┃ ┣ 📂 uploads # Middlewares personalizados
- ┃ ┣ 📂 utils # Middlewares personalizados
- ┃ ┗ 📜 index.js      # Punto de entrada
+ ┃ ┣ 📂 config           # Configuraciones de la API
+ ┃ ┣ 📂 controllers      # Controladores de la API
+ ┃ ┣ 📂 db               # Configuracion de conexion a la database de la API
+ ┃ ┣ 📂 functions        # Funciones de datos
+ ┃ ┣ 📂 logs             # Logs personalizados
+ ┃ ┣ 📂 middlewares      # Middlewares personalizados
+ ┃ ┣ 📂 models           # Modelos de la API
+ ┃ ┣ 📂 queries          # Consultas a la database de la API
+ ┃ ┣ 📂 routes           # Rutas de la API
+ ┃ ┣ 📂 uploads          # Carpeta de archivos de la API
+ ┃ ┣ 📂 utils            # Funciones Personalizadas de la API
+ ┃ ┗ 📜 index.js         # Punto de entrada
  ┣ 📜 .env
  ┣ 📜 .gitignore
  ┣ 📜 .env.example.js
