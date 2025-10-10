@@ -17,7 +17,7 @@ export const insertarUsuario = async (req, res) => {
     }
 };
 
-export const loginUsuario = async (req, res) => {
+export const loginUsuario = async (req, res, next) => {
     const parametros = req.body;
     try {
         const result = await modelLoginUsuario(parametros);
@@ -64,16 +64,9 @@ export const loginUsuario = async (req, res) => {
             data: result.data
         });
     } catch (error) {
-        console.error(error)
-        res.json({
-            estado: false,
-            found: false,
-            data: null,
-            errorMessage: `Error en ${import.meta.url} ${error.errorMessage}`,
-            sql: null
-        })
+        next(error);
     }
-}
+};
 
 export const logoutUsuario = (req, res) => {
     res.clearCookie("authToken", {

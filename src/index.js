@@ -1,9 +1,10 @@
-import express from 'express'
-import cors from 'cors'
-import fileUpload from 'express-fileupload'
-import apiRoutes from './routes/index.routes.js'
-import { environment } from '../env.js'
-import cookieParser from 'cookie-parser'
+import express from 'express';
+import cors from 'cors';
+import fileUpload from 'express-fileupload';
+import apiRoutes from './routes/index.routes.js';
+import { environment } from '../env.js';
+import cookieParser from 'cookie-parser';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 const app = express()
 
@@ -16,7 +17,9 @@ app.use(cookieParser())
 app.use(fileUpload())
 app.use('/uploads', express.static('./src/uploads'))
 
-app.use(api, apiRoutes)
+app.use(api, apiRoutes);
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.info('Running Warehouse Productions Inputs Api Service')

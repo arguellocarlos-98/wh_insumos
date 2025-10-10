@@ -1,7 +1,7 @@
 import { query_sp_insertarRemito, query_sp_listarRemitoxFecha } from '../queries/remitos.queries.js'
 import moment from 'moment'
 import { generarSQLLog } from '../utils/sql.helper.js'
-import { insertarSPTransaccion, listarSP } from '../db/operations.db.js'
+import { insertarProcedure, listarProcedure } from '../db/operations.db.js'
 
 export const model_sp_listarRemitoxFecha = async (parametros) => {
   const sqlParametros = [
@@ -11,7 +11,7 @@ export const model_sp_listarRemitoxFecha = async (parametros) => {
   ]
 
   try {
-    const resultado = await listarSP(query_sp_listarRemitoxFecha, sqlParametros)
+    const resultado = await listarProcedure(query_sp_listarRemitoxFecha, sqlParametros)
     if (resultado.estado && resultado.found) {
       resultado.data = resultado.data.map(consulta => ({
         codigoRemito: consulta.codigoRemito,
@@ -56,7 +56,7 @@ export const model_sp_insertarRemito = async (parametros) => {
   ]
 
   try {
-    const resultado = await insertarSPTransaccion(query_sp_insertarRemito, sqlParametros)
+    const resultado = await insertarProcedure(query_sp_insertarRemito, sqlParametros)
     const codigoRemito = resultado.found ? resultado.data[0]?.codigoRemito ?? 0 : 0
     return {
       estado: resultado.estado,
@@ -64,9 +64,9 @@ export const model_sp_insertarRemito = async (parametros) => {
       ...(resultado.estado
         ? {}
         : {
-            errorMessage: `Error en ${import.meta.url} ${resultado.errorMessage}`,
-            sql: resultado.sql
-          })
+          errorMessage: `Error en ${import.meta.url} ${resultado.errorMessage}`,
+          sql: resultado.sql
+        })
     }
   } catch (error) {
     return {

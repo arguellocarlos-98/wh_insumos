@@ -18,7 +18,7 @@ class Pool {
   async query (sql, params = []) {
     const result = await this.pool.query(sql, params)
     if (!Array.isArray(result) || result.length < 1 || !Array.isArray(result[0])) {
-      throw new Error('Respuesta inesperada del motor MySQL')
+      throw new Error('Respuesta inesperada del motor MySQL');
     };
     const [rows] = result
     return rows
@@ -28,7 +28,7 @@ class Pool {
     await this.pool.end()
   };
 
-  async withTransaction (callback) {
+  async transaction (callback) {
     let connection
     try {
       connection = await this.pool.getConnection()

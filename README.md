@@ -1,4 +1,4 @@
-# 🌐 REST API - Proyecto
+# 🌐 REST API - WH INSUMOS
 
 ![GitHub stars](https://img.shields.io/github/stars/arguellocarlos-98/wh_insumos?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/arguellocarlos-98/wh_insumos?style=social)
