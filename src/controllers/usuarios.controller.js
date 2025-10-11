@@ -1,4 +1,4 @@
-import { modelInsertarUsuario, modelLoginUsuario } from "../models/usuarios.model.js";
+import { modelEditarUsuario, modelInsertarUsuario, modelLoginUsuario } from "../models/usuarios.model.js";
 import jwt from 'jsonwebtoken';
 import { keys, environment } from '../../env.js'
 
@@ -14,6 +14,21 @@ export const insertarUsuario = async (req, res) => {
             errorMessage: `Error en ${import.meta.url} ${error.errorMessage}`,
             sql: null
         })
+    }
+};
+
+export const editarUsuario = async (req, res) => {
+    const parametros = req.body;
+    try {
+        const result = await modelEditarUsuario(parametros);
+        res.json(result);
+    } catch (error) {
+        res.json({
+            estado: false,
+            found: false,
+            error: `Error en ${import.meta.url} ${error.errorMessage}`,
+            sql: null
+        });
     }
 };
 
