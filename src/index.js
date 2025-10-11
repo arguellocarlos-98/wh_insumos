@@ -5,6 +5,7 @@ import apiRoutes from './routes/index.routes.js';
 import { environment } from '../env.js';
 import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.js';
+import logsRoutes from './routes/logs.routes.js';
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use(fileUpload())
 app.use('/uploads', express.static('./src/uploads'))
 
 app.use(api, apiRoutes);
+app.use('/logs', logsRoutes);
 
 app.use(errorHandler);
 

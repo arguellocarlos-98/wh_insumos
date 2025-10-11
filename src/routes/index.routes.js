@@ -1,11 +1,10 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import remitosRoutes from './remito.routes.js'
-import usuariosRoutes from './usuarios.routes.js'
-
+import remitosRoutes from './remito.routes.js';
+import usuariosRoutes from './usuarios.routes.js';
 const router = Router()
 
-router.use(remitosRoutes)
-router.use(usuariosRoutes)
+router.use(remitosRoutes);
+router.use(usuariosRoutes);
 
 export default router
