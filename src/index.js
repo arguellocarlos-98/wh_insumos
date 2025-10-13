@@ -4,7 +4,6 @@ import fileUpload from 'express-fileupload';
 import apiRoutes from './routes/index.routes.js';
 import { environment } from '../env.js';
 import cookieParser from 'cookie-parser';
-import logsRoutes from './routes/logs.routes.js';
 import Sentry from '../instruments.js';
 
 const app = express()
@@ -12,14 +11,16 @@ const app = express()
 const port = (environment.prod) ? environment.api_port_prod : environment.api_port_dev
 const api = '/api'
 
-app.use(cors({ origin: '*' }))
+app.use(cors({
+  origin: 'http://localhost:8888',
+  credentials: true
+}))
 app.use(express.json())
 app.use(cookieParser())
 app.use(fileUpload())
 app.use('/uploads', express.static('./src/uploads'))
 
 app.use(api, apiRoutes);
-app.use('/logs', logsRoutes);
 
 app.use((err, req, res, next) => {
   const eventId = Sentry.captureException(err);
