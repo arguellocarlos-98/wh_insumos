@@ -4,8 +4,8 @@ import fileUpload from 'express-fileupload';
 import apiRoutes from './routes/index.routes.js';
 import { environment } from '../env.js';
 import cookieParser from 'cookie-parser';
-import { errorHandler } from './middlewares/errorHandler.js';
 import logsRoutes from './routes/logs.routes.js';
+import Sentry from '../instruments.js';
 
 const app = express()
 
@@ -21,7 +21,18 @@ app.use('/uploads', express.static('./src/uploads'))
 app.use(api, apiRoutes);
 app.use('/logs', logsRoutes);
 
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+  const eventId = Sentry.captureException(err);
+  
+  res.status(err.statusCode || 200).json({
+    estado: false,
+    found: false,
+    data: null,
+    error: err.name,
+    message: err.message,
+    sentryId: eventId,
+  });
+});
 
 app.listen(port, () => {
   console.info('Running Warehouse Productions Inputs Api Service')

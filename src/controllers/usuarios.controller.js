@@ -1,34 +1,44 @@
-import { modelEditarUsuario, modelInsertarUsuario, modelLoginUsuario } from "../models/usuarios.model.js";
+import { modelEditarUsuario, modelInsertarUsuario, modelListarUsuario, modelLoginUsuario, modelMantenerUsuario } from "../models/usuarios.model.js";
 import jwt from 'jsonwebtoken';
 import { keys, environment } from '../../env.js'
 
-export const insertarUsuario = async (req, res) => {
+export const insertarUsuario = async (req, res, next) => {
     const parametros = req.body;
     try {
         const result = await modelInsertarUsuario(parametros);
         res.json(result);
     } catch (error) {
-        res.json({
-            estado: false,
-            codigoUsuario: null,
-            errorMessage: `Error en ${import.meta.url} ${error.errorMessage}`,
-            sql: null
-        })
+        next(error);
     }
 };
 
-export const editarUsuario = async (req, res) => {
+export const editarUsuario = async (req, res, next) => {
     const parametros = req.body;
     try {
         const result = await modelEditarUsuario(parametros);
         res.json(result);
     } catch (error) {
-        res.json({
-            estado: false,
-            found: false,
-            error: `Error en ${import.meta.url} ${error.errorMessage}`,
-            sql: null
-        });
+        next(error);
+    }
+};
+
+export const listarUsuario = async (req, res, next) => {
+    const parametros = req.params;
+    try {
+        const result = await modelListarUsuario(parametros);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const mantenerUsuario = async (req, res, next) => {
+    const parametros = req.body;
+    try {
+        const result = await modelMantenerUsuario(parametros);
+        res.json(result);
+    } catch (error) {
+        next(error);
     }
 };
 
