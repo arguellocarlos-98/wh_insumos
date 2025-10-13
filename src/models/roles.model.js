@@ -20,7 +20,7 @@ export const modelListarRol = async (parametros) => {
             estadoRol: estadoRol === 1
         })) : [];
         return {
-            etado: true,
+            estado: true,
             found,
             data
         };
