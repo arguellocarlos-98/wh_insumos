@@ -17,6 +17,6 @@ export function errorFactory(type, message) {
     case 'db':
       return new DatabaseError(message);
     default:
-      return new AppError(message || 'Error desconocido', 500);
+      return new AppError(message || 'Error desconocido', 400);
   }
 }

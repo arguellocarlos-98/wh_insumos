@@ -27,6 +27,6 @@ export class AuthError extends AppError {
 
 export class DatabaseError extends AppError {
   constructor(message = 'Error interno de base de datos') {
-    super(message, 500, 'DatabaseError');
+    super(message, 400, 'DatabaseError');
   }
 }

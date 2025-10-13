@@ -25,7 +25,7 @@ app.use(api, apiRoutes);
 app.use((err, req, res, next) => {
   const eventId = Sentry.captureException(err);
   
-  res.status(err.statusCode || 200).json({
+  res.status(err.statusCode || 400).json({
     estado: false,
     found: false,
     data: null,

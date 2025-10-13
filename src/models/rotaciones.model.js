@@ -1,23 +1,25 @@
 import * as Sentry from "@sentry/node";
 import { actualizarProcedure, insertarProcedure, listarProcedure } from "../db/operations.db.js";
-import { queryEditarRol, queryInsertarRol, queryListarRol, queryMantenerRol } from "../queries/roles.queries.js";
+import { queryEditarRotacion, queryInsertarRotacion, queryListarRotacion, queryMantenerRotacion } from "../queries/rotaciones.queries.js";
 
-export const modelListarRol = async (parametros) => {
+export const modelListarRotacion = async (parametros) => {
     const paramsQuery = [
         parametros.codigoSucursal,
         parametros.filtro
     ];
+
     try {
-        const result = await listarProcedure(queryListarRol, paramsQuery);
+        const result = await listarProcedure(queryListarRotacion, paramsQuery);
         if (!result.estado) return result;
 
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoRol, nombreRol, estadoRol }) => ({
-            codigoRol,
-            nombreRol,
-            estadoRol: estadoRol === 1
+        const data = found ? rows.map(({ codigoRotacion, nombreRotacion, colorRotacion, estadoRotacion }) => ({
+            codigoRotacion,
+            nombreRotacion,
+            colorRotacion,
+            estadoRotacion: estadoRotacion === 1
         })) : [];
         return {
             estado: true,
@@ -30,19 +32,21 @@ export const modelListarRol = async (parametros) => {
     }
 };
 
-export const modelInsertarRol = async (parametros) => {
+export const modelInsertarRotacion = async (parametros) => {
     const paramsQuery = [
-        parametros.nombreRol,
+        parametros.nombreRotacion,
+        parametros.colorRotacion,
         parametros.codigoUsuario
     ];
 
     try {
-        const result = await insertarProcedure(queryInsertarRol, paramsQuery);
+        const result = await insertarProcedure(queryInsertarRotacion, paramsQuery);
         if (!result.estado) return result;
-        const codigoRol = result.data[0]?.codigoRol ?? null;
+
+        const codigoRotacion = result.data[0]?.codigoRotacion ?? null;
         return {
             estado: true,
-            codigoRol
+            codigoRotacion
         };
     } catch (error) {
         Sentry.captureException(error);
@@ -50,16 +54,18 @@ export const modelInsertarRol = async (parametros) => {
     }
 };
 
-export const modelEditarRol = async (parametros) => {
+export const modelEditarRotacion = async (parametros) => {
     const paramsQuery = [
-        parametros.nombreRol,
+        parametros.nombreRotacion,
+        parametros.colorRotacion,
         parametros.codigoUsuario,
-        parametros.codigoRol
+        parametros.codigoRotacion
     ];
 
     try {
-        const result = await actualizarProcedure(queryEditarRol, paramsQuery);
+        const result = await actualizarProcedure(queryEditarRotacion, paramsQuery);
         if (!result.estado) return result;
+
         return {
             estado: true,
             found: result.found,
@@ -71,16 +77,17 @@ export const modelEditarRol = async (parametros) => {
     }
 };
 
-export const modelMantenerRol = async (parametros) => {
+export const modelMantenerRotacion = async (parametros) => {
     const paramsQuery = [
-        parametros.estadoRol,
+        parametros.estadoRotacion,
         parametros.codigoUsuario,
-        parametros.codigoRol
+        parametros.codigoRotacion
     ];
 
     try {
-        const result = await actualizarProcedure(queryMantenerRol, paramsQuery);
+        const result = await actualizarProcedure(queryMantenerRotacion, paramsQuery);
         if (!result.estado) return result;
+
         return {
             estado: true,
             found: result.found,

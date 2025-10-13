@@ -1,7 +1,7 @@
 import { logger } from '../utils/logger.js';
 
 export function errorHandler(err, req, res, next) {
-  const status = err.statusCode || 500;
+  const status = err.statusCode || 400;
 
   logger.error({
     message: `[${err.name}] ${err.message}`,
