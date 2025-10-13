@@ -135,3 +135,19 @@ export const refreshToken = (req, res) => {
         res.status(401).json({ estado: false, errorMessage: "Refresh token inválido o expirado" });
     }
 };
+
+export const checkToken = (req, res) => {
+    const token = req.cookies?.authToken;
+
+    if (!token) {
+        return res.status(401).json({ estado: false, mensaje: "No autorizado" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, keys.SECRET_JWT_KEY);
+        // opcional: podés devolver info del usuario
+        return res.json({ estado: true, usuario: decoded });
+    } catch (err) {
+        return res.status(401).json({ estado: false, mensaje: "Token inválido o expirado" });
+    }
+};

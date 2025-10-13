@@ -79,7 +79,7 @@ export const modelMantenerDeposito = async (parametros) => {
     const paramsQuery = [
         parametros.estadoDeposito,
         parametros.codigoUsuario,
-        parametros.codigoSucursal
+        parametros.codigoDeposito
     ];
 
     try {
