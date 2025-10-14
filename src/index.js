@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import fileUpload from 'express-fileupload';
 import apiRoutes from './routes/index.routes.js';
 import { environment } from '../env.js';
 import cookieParser from 'cookie-parser';
@@ -17,7 +16,6 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(fileUpload())
 app.use('/uploads', express.static('./src/uploads'))
 
 app.use(api, apiRoutes);

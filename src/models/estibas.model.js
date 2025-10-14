@@ -1,6 +1,9 @@
+import path from "path";
+import fs from "fs";
+
 import * as Sentry from "@sentry/node";
 import { queryEditarEstiba, queryInsertarEstiba, queryListarEstiba, queryMantenerEstiba } from "../queries/estibas.queries.js";
-import { listarProcedure, insertarProcedure, actualizarProcedure } from "../db/operations.db.js";
+import { listarProcedure, insertarProcedure, actualizarProcedure, cargarArchivoCSV } from "../db/operations.db.js";
 
 export const modelListarEstiba = async (parametros) => {
     const paramsQuery = [
@@ -114,4 +117,26 @@ export const modelMantenerEstiba = async (parametros) => {
         Sentry.captureException(error);
         throw error;
     }
+};
+
+export const modelCargaEstibaCSV = async (archivoPath) => {
+  if (!archivoPath.endsWith(".csv")) {
+    throw new Error("Solo se permiten archivos CSV.");
+  }
+
+  const rutaAbsoluta = path.resolve(archivoPath);
+
+  const opciones = {
+    camposTerminados: ";",
+    lineasTerminadas: "\n",
+    ignorarLineas: 1,
+  };
+
+  try {
+    return await cargarArchivoCSV(rutaAbsoluta, "estibas_template", opciones);
+  } finally {
+    fs.unlink(rutaAbsoluta, (err) => {
+      if (err) console.error("No se pudo borrar el CSV:", err.message);
+    });
+  }
 };

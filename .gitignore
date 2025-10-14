@@ -1,5 +1,5 @@
 /node_modules
-/src/uploads/sku
+/src/uploads/
 /env.js
 /.env
 /logs

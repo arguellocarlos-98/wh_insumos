@@ -62,7 +62,7 @@ export const modelListarDeposito = async (parametros) => {
             codigoDeposito,
             sapDeposito,
             nombreDeposito,
-            estadoDeposito
+            estadoDeposito: estadoDeposito === 1
         })) : [];
         return {
             estado: true,

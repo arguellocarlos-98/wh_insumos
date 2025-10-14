@@ -9,5 +9,6 @@ export const dbConfig = {
   connectTimeout: 10000,
   waitForConnections: true,
   connectionLimit: 150,
-  queueLimit: 0
+  queueLimit: 0,
+  flags: ["+LOCAL_FILES"]
 }
