@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { queryEditarEstiba, queryInsertarEstiba, queryListarEstiba, queryMantenerEstiba } from "../queries/estibas.queries.js";
-import { actualizarProcedure, insertarProcedure, listarProcedure } from "../db/operations.db.js";
+import { listarProcedure, insertarProcedure, actualizarProcedure } from "../db/operations.db.js";
 
 export const modelListarEstiba = async (parametros) => {
     const paramsQuery = [
@@ -104,7 +104,7 @@ export const modelMantenerEstiba = async (parametros) => {
     try {
         const result = await actualizarProcedure(queryMantenerEstiba, paramsQuery);
         if (!result.estado) return result;
-        
+
         return {
             estado: true,
             found: result.found,

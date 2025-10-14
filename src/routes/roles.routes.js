@@ -6,8 +6,8 @@ const router = Router();
 
 router.get("/roles/:codigoSucursal/:filtro", authMiddleware, listarRol);
 
-router.post("/roles", insertarRol);
+router.post("/roles", authMiddleware, insertarRol);
 
-router.patch("/roles", editarRol);
-router.patch("/roles/mantener", mantenerRol);
+router.patch("/roles", authMiddleware, editarRol);
+router.patch("/roles/mantener", authMiddleware, mantenerRol);
 export default router;

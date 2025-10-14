@@ -6,8 +6,8 @@ const router = Router();
 
 router.get("/estibas/:codigoSucursal/:filtro", authMiddleware, listarEstiba);
 
-router.post("/estibas", insertarEstiba);
+router.post("/estibas", authMiddleware,insertarEstiba);
 
-router.patch("/estibas", editarEstiba);
-router.patch("/estibas/mantener", mantenerEstiba);
+router.patch("/estibas", authMiddleware,editarEstiba);
+router.patch("/estibas/mantener", authMiddleware,mantenerEstiba);
 export default router;

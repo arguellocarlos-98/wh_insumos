@@ -2,10 +2,6 @@ import pool from '../config/pool.config.js';
 import { generarSQLLog } from '../utils/sql.helper.js';
 import { DatabaseError } from '../errors/AppError.js';
 
-/**
- * Ejecuta cualquier query y devuelve array de resultados
- * Lanza DatabaseError si falla la query
- */
 export const listarProcedure = async (sql, params = []) => {
   try {
     const rows = await pool.query(sql, params);
@@ -23,36 +19,21 @@ export const listarProcedure = async (sql, params = []) => {
   }
 };
 
-/**
- * Ejecuta SP que devuelve un solo registro
- * Lanza DatabaseError si falla la SP
- */
 export const mostrarProcedure = async (sql, params) => {
   const result = await listarProcedure(sql, params);
-
   if (!result.estado) {
     throw new DatabaseError(`Error al ejecutar SP: ${result.errorMessage}`);
   }
-
-  const row = result.found ? result.data[0] : null;
   return {
     estado: true,
-    found: !!row,
-    data: row
+    found: !!result.data[0],
+    data: result.data[0] || null
   };
 };
 
-/**
- * Ejecuta INSERT / SP de inserción
- * Lanza DatabaseError si falla
- */
 export const insertarProcedure = async (sql, params) => {
   try {
-    const result = await pool.transaction(async (conn) => {
-      const [rows] = await conn.query(sql, params);
-      return rows;
-    });
-
+    const result = await pool.query(sql, params);
     const esArrayDoble = Array.isArray(result) && Array.isArray(result[0]);
     return {
       estado: true,
@@ -66,17 +47,9 @@ export const insertarProcedure = async (sql, params) => {
   }
 };
 
-/**
- * Ejecuta UPDATE / SP de actualización
- * Lanza DatabaseError si falla
- */
 export const actualizarProcedure = async (sql, params = []) => {
   try {
-    const result = await pool.transaction(async (conn) => {
-      const [res] = await conn.query(sql, params);
-      return res;
-    });
-
+    const result = await pool.query(sql, params);
     return {
       estado: true,
       found: result.affectedRows > 0,
