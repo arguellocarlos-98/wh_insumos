@@ -15,7 +15,7 @@ export const modelListarZonaDeposito = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoZona, codigoDeposito, nombreDeposito, sapDeposito, codigoBodega, nombreBodega, nombreZona, estadoZona }) => ({
+        const data = found ? rows.map(({ codigoZona, codigoDeposito, nombreDeposito, sapDeposito, codigoBodega, nombreBodega, nombreZona, priZona, estadoZona }) => ({
             codigoZona,
             codigoDeposito,
             nombreDeposito,
@@ -23,6 +23,7 @@ export const modelListarZonaDeposito = async (parametros) => {
             codigoBodega,
             nombreBodega,
             nombreZona,
+            priZona: priZona === 1,
             estadoZona: estadoZona === 1
         })) : [];
         return {
@@ -40,6 +41,7 @@ export const modelInsertarZonaDeposito = async (parametros) => {
     const paramsQuery = [
         parametros.codigoBodega,
         parametros.nombreZona,
+        parametros.priZona,
         parametros.codigoUsuario
     ];
 
@@ -62,6 +64,7 @@ export const modelEditarZonaDeposito = async (parametros) => {
     const paramsQuery = [
         parametros.codigoBodega,
         parametros.nombreZona,
+        parametros.priZona,
         parametros.codigoUsuario,
         parametros.codigoZona
     ];
