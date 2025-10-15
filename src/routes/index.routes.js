@@ -8,6 +8,7 @@ import bodegasRoutes from './bodegas.routes.js';
 import zonasRoutes from './zonas_depositos.routes.js';
 import rotacionesRoutes from './rotaciones.routes.js';
 import estibasRoutes from './estibas.routes.js';
+import categoriasRoutes from './productos_categorias.routes.js';
 
 const router = Router()
 
@@ -19,5 +20,6 @@ router.use(bodegasRoutes);
 router.use(zonasRoutes);
 router.use(rotacionesRoutes);
 router.use(estibasRoutes);
+router.use(categoriasRoutes);
 
 export default router
