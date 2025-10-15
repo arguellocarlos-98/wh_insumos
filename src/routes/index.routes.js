@@ -9,6 +9,7 @@ import zonasRoutes from './zonas_depositos.routes.js';
 import rotacionesRoutes from './rotaciones.routes.js';
 import estibasRoutes from './estibas.routes.js';
 import categoriasRoutes from './productos_categorias.routes.js';
+import productosRoutes from './productos.routes.js';
 
 const router = Router()
 
@@ -21,5 +22,6 @@ router.use(zonasRoutes);
 router.use(rotacionesRoutes);
 router.use(estibasRoutes);
 router.use(categoriasRoutes);
+router.use(productosRoutes);
 
 export default router
