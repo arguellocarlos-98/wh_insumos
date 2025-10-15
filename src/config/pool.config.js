@@ -1,5 +1,7 @@
-import mysql from 'mysql2/promise';
-import { dbConfig } from './database.config.js';
+import mysql from "mysql2/promise";
+import { dbConfig } from "./database.config.js";
+import { generarSQLLog } from "../utils/sql.helper.js";
+import { DatabaseError } from "../errors/AppError.js";
 
 class Pool {
   constructor() {
@@ -10,11 +12,36 @@ class Pool {
     return Pool.instance;
   }
 
-  // Query simple: toma y libera la conexión automáticamente
+  // Query simple
   async query(sql, params = []) {
-    // mysql2/promise pool maneja conexiones automáticamente
     const [rows] = await this.pool.query(sql, params);
     return rows;
+  }
+
+  // Ejecutar callback dentro de una transacción
+  async transaction(callback) {
+    const connection = await this.pool.getConnection();
+    try {
+      await connection.beginTransaction();
+
+      // Pasamos la conexión al callback
+      const result = await callback(connection);
+
+      await connection.commit();
+      return result;
+    } catch (error) {
+      await connection.rollback();
+
+      // Si el error no es un DatabaseError, lo envolvemos
+      if (!(error instanceof DatabaseError)) {
+        throw new DatabaseError(
+          `Transacción fallida: ${error.message} | SQL: ${generarSQLLog("TRANSACTION", [])}`
+        );
+      }
+      throw error;
+    } finally {
+      connection.release();
+    }
   }
 
   async close() {

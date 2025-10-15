@@ -69,56 +69,40 @@ export const actualizarProcedure = async (sql, params = []) => {
 
 
 /**
- * Carga datos de un archivo CSV en una tabla usando LOAD DATA LOCAL INFILE.
+ * Realiza un UPSERT masivo desde un CSV usando una transacción.
+ * Solo para tablas con estructura compatible con ON DUPLICATE KEY UPDATE.
  *
- * @param {string} rutaCSV - Ruta al archivo CSV (relativa o absoluta)
- * @param {string} tablaDestino - Nombre de la tabla donde se insertarán los datos
- * @param {object} opciones - Configuración del delimitador y formato
- * @example
- * await cargarArchivoCSV('uploads/estibas.csv', 'estibas', {
- *   camposTerminados: ',',
- *   lineasTerminadas: '\n',
- *   ignorarLineas: 1
- * });
+ * @param {string} rutaCSV - Ruta absoluta del CSV
+ * @param {string[]} columnas - Orden de columnas que se usarán en el VALUES
+ * @param {string} queryUpsert - Query de UPSERT con VALUES ?
+ * @returns {Promise<{estado: boolean, inserted: number, updated: number}>}
  */
-export const cargarArchivoCSV = async (
-  rutaCSV,
-  tablaDestino,
-  opciones = {}
-) => {
-  const {
-    camposTerminados = ";",
-    lineasTerminadas = "\n",
-    ignorarLineas = 1,
-  } = opciones;
+import { leerCSV } from "../utils/csv.helper.js";
 
+export const upsertCSV = async (rutaCSV, columnas, queryUpsert) => {
+  const connection = await pool.pool.getConnection();
   try {
-    const sql = `
-      LOAD DATA LOCAL INFILE ?
-      INTO TABLE ${tablaDestino}
-      FIELDS TERMINATED BY ?
-      LINES TERMINATED BY ?
-      IGNORE ? LINES;
-    `;
+    const registros = await leerCSV(rutaCSV);
+    if (!registros.length) throw new DatabaseError("CSV vacío o mal formateado");
 
-    const result = await pool.query({
-      sql,
-      infileStreamFactory: () => fs.createReadStream(rutaCSV)
-    }, [rutaCSV, camposTerminados, lineasTerminadas, ignorarLineas]);
+    // Mapear cada registro a un array según las columnas
+    const values = registros.map((r) => columnas.map((col) => r[col]));
+
+    await connection.beginTransaction();
+
+    const [result] = await connection.query(queryUpsert, [values]);
+
+    await connection.commit();
 
     return {
       estado: true,
-      found: result.affectedRows > 0,
-      data: {
-        insertedRows: result.affectedRows,
-      },
+      inserted: result.affectedRows,
+      updated: result.changedRows || 0,
     };
   } catch (error) {
-    throw new DatabaseError(
-      `Error en LOAD DATA: ${error.message} | SQL: ${generarSQLLog(
-        "LOAD DATA LOCAL INFILE",
-        [rutaCSV, tablaDestino]
-      )}`
-    );
+    await connection.rollback();
+    throw new DatabaseError(`Error en UPSERT CSV: ${error.message}`);
+  } finally {
+    connection.release();
   }
 };

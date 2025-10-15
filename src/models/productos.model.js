@@ -1,6 +1,9 @@
 import * as Sentry from "@sentry/node";
-import { listarProcedure, insertarProcedure, actualizarProcedure } from "../db/operations.db.js";
-import { queryListarProducto, queryInsertarProducto, queryEditarProducto, queryMantenerProducto } from "../queries/productos.queries.js";
+
+import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
+import { queryListarProducto, queryInsertarProducto, queryEditarProducto, queryMantenerProducto, queryUpsertProducto } from "../queries/productos.queries.js";
+
+import { DatabaseError } from "../errors/AppError.js";
 
 export const modelListarProducto = async (parametros) => {
     const paramsQuery = [
@@ -118,6 +121,28 @@ export const modelMantenerProducto = async (parametros) => {
             found: result.found,
             data: result.data
         };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const upsertProductosDesdeCSV = async (rutaCSV) => {
+    const columnas = [
+        "codigoCategoria",
+        "truck",
+        "sap",
+        "ean",
+        "nombreProducto",
+        "bultoPallet",
+        "unidadCaja",
+        "vigenciaProducto",
+        "bloqueoProducto",
+        "precioUSD",
+        "codigoUsuario",
+    ];
+    try {
+        return await upsertCSV(rutaCSV, columnas, queryUpsertProducto);
     } catch (error) {
         Sentry.captureException(error);
         throw error;
