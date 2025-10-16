@@ -1,0 +1,2 @@
+mkdir -p src/uploads/estibas
+touch src/uploads/.gitkeep

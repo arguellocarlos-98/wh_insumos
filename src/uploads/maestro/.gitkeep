@@ -1,0 +1,2 @@
+mkdir -p src/uploads/maestro
+touch src/uploads/.gitkeep
