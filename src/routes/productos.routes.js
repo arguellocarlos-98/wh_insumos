@@ -1,7 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
 import path from "path";
-
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { editarProducto, insertarProducto, listarProducto, mantenerProducto, cargarProductosCSV } from "../controllers/productos.controller.js";
 

@@ -1,4 +1,7 @@
-import { modelEditarStock, modelInsertarStock, modelListarStock, modelMantenerStock } from "../models/stock.model.js";
+import path from "path";
+import fs from "fs/promises";
+
+import { modelEditarStock, modelInsertarStock, modelListarStock, modelMantenerStock, modelUpsertStockCSV } from "../models/stock.model.js";
 
 export const listarStock = async (req, res, next) => {
     try {
@@ -37,5 +40,21 @@ export const mantenerStock = async (req, res, next) => {
         res.json(result);
     } catch (error) {
         next(error);
+    }
+};
+
+export const upsertStockCSV = async (req, res, next) => {
+    const rutaCSV = path.resolve("src/uploads/stock", req.file.filename);
+    try {
+        const resultado = await modelUpsertStockCSV(rutaCSV);
+        res.json({
+            estado: true,
+            mensaje: "Stock cargado correctamente",
+            ...resultado,
+        });
+    } catch (error) {
+        next(error);
+    } finally {
+        await fs.unlink(rutaCSV).catch(() => { });
     }
 };

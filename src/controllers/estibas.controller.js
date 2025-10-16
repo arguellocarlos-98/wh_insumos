@@ -1,4 +1,7 @@
-import { modelEditarEstiba, modelInsertarEstiba, modelListarEstiba, modelMantenerEstiba } from "../models/estibas.model.js";
+import path from "path";
+import fs from "fs/promises";
+
+import { modelEditarEstiba, modelInsertarEstiba, modelInsertarEstibaCSV, modelListarEstiba, modelMantenerEstiba } from "../models/estibas.model.js";
 
 export const listarEstiba = async (req, res, next) => {
   const parametros = req.params;
@@ -37,5 +40,21 @@ export const mantenerEstiba = async (req, res, next) => {
     res.json(result);
   } catch (error) {
     next(error);
+  }
+};
+
+export const insertarEstibaCSV = async (req, res, next) => {
+  const rutaCSV = path.resolve("src/uploads/estibas", req.file.filename);
+  try {
+    const resultado = await modelInsertarEstibaCSV(rutaCSV);
+    res.json({
+      estado: true,
+      mensaje: "Estibas cargadas correctamente",
+      ...resultado,
+    });
+  } catch (error) {
+    next(error)
+  } finally {
+    await fs.unlink(rutaCSV).catch(() => { });
   }
 };

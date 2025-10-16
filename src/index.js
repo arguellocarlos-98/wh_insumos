@@ -13,7 +13,7 @@ const api = '/api'
 app.use(cors({
   origin: 'http://localhost:8888',
   credentials: true
-}))
+}));
 app.use(express.json())
 app.use(cookieParser())
 app.use('/uploads', express.static('./src/uploads'))

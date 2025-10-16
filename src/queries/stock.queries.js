@@ -23,3 +23,19 @@ INSERT INTO stock (
 )
 VALUES ?;
 `;
+
+export const queryDeshabilitarStockPorSucursal = `
+UPDATE 
+  stock
+SET 
+  estadoStock = 0,
+  fechaEliminacion = NOW(),
+  usuarioEliminacion = ?
+WHERE usuarioInsercion IN (
+  SELECT u.codigoUsuario
+  FROM usuarios u
+  WHERE u.codigoSucursal = (
+    SELECT codigoSucursal FROM usuarios WHERE codigoUsuario = ?
+  )
+);
+`;

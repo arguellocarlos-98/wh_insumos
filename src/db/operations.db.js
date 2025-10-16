@@ -79,16 +79,24 @@ export const actualizarProcedure = async (sql, params = []) => {
  */
 import { leerCSV } from "../utils/csv.helper.js";
 
-export const upsertCSV = async (rutaCSV, columnas, queryUpsert) => {
+export const upsertCSV = async (rutaCSV, columnas, queryUpsert, preQuery = null) => {
   const connection = await pool.pool.getConnection();
   try {
     const registros = await leerCSV(rutaCSV);
     if (!registros.length) throw new DatabaseError("CSV vacío o mal formateado");
 
+    // Tomar el primer usuario del CSV (todos deben pertenecer a la misma sucursal)
+    const codigoUsuario = registros[0]?.usuarioInsercion;
+    if (!codigoUsuario) throw new DatabaseError("No se encontró codigoUsuario en el CSV");
+
     // Mapear cada registro a un array según las columnas
     const values = registros.map((r) => columnas.map((col) => r[col]));
 
     await connection.beginTransaction();
+
+    if (preQuery) {
+      await connection.query(preQuery, [codigoUsuario, codigoUsuario]);
+    }
 
     const [result] = await connection.query(queryUpsert, [values]);
 

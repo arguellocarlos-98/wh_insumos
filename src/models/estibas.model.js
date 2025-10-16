@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
-import { queryEditarEstiba, queryInsertarEstiba, queryListarEstiba, queryMantenerEstiba } from "../queries/estibas.queries.js";
-import { listarProcedure, insertarProcedure, actualizarProcedure } from "../db/operations.db.js";
+import { queryEditarEstiba, queryInsertarEstiba, queryInsertarEstibaCSV, queryListarEstiba, queryMantenerEstiba } from "../queries/estibas.queries.js";
+import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
 
 export const modelListarEstiba = async (parametros) => {
     const paramsQuery = [
@@ -110,6 +110,24 @@ export const modelMantenerEstiba = async (parametros) => {
             found: result.found,
             data: result.data
         };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelInsertarEstibaCSV = async (parametros) => {
+    const columnsQuery = [
+        "codigoRotacion",
+        "codigoZona",
+        "nombreEstiba",
+        "capacidadMaxima",
+        "pri",
+        "codigoUsuario",
+    ];
+
+    try {
+        return await upsertCSV(parametros, columnsQuery, queryInsertarEstibaCSV);
     } catch (error) {
         Sentry.captureException(error);
         throw error;

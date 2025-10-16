@@ -53,12 +53,6 @@ export const cargarProductosCSV = async (req, res, next) => {
             ...resultado,
         });
     } catch (error) {
-        if (error instanceof DatabaseError) {
-            return res.status(400).json({
-                estado: false,
-                mensaje: error.message,
-            });
-        };
         next(error);
     } finally {
         await fs.unlink(rutaCSV).catch(() => { });

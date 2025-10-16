@@ -8,12 +8,22 @@ export const queryEditarEstiba = "call `sp_editarEstiba`(?,?,?,?,?,?,?);";
 // Mantener Estibas
 export const queryMantenerEstiba = "call `sp_mantenerEstiba`(?,?,?);";
 // Insertar SKU por CDV
-export const queryInsertarCsv = `
-LOAD DATA LOCAL INFILE ?
-	INTO TABLE estibas_template
-	FIELDS TERMINATED BY ';' 
-	OPTIONALLY ENCLOSED BY '"'
-	LINES TERMINATED BY '\n'
-	IGNORE 1 ROWS
-	(sku,producto);
+export const queryInsertarEstibaCSV = `
+INSERT INTO estibas (
+  codigoRotacion,
+  codigoZona,
+  nombreEstiba,
+  capacidadMaxima,
+  pri,
+  usuarioInsercion
+)
+VALUES ?
+ON DUPLICATE KEY UPDATE
+  codigoRotacion = VALUES(codigoRotacion),
+  codigoZona = VALUES(codigoZona),
+  nombreEstiba = VALUES(nombreEstiba),
+  capacidadMaxima = VALUES(capacidadMaxima),
+  pri = VALUES(pri),
+  usuarioEdicion = VALUES(usuarioInsercion),
+  fechaEdicion = CURRENT_TIMESTAMP();
 `;

@@ -15,10 +15,13 @@ export const modelListarProducto = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoProducto, codigoCategoria, nombreCategoria, truck, sap, ean, nombreProducto, bultoPallet, unidadCaja, vigenciaProducto, bloqueoProducto, precioUSD, estadoProducto }) => ({
+        const data = found ? rows.map(({ codigoProducto, codigoCategoria, nombreCategoria, codigoRotacion, nombreRotacion, colorRotacion, truck, sap, ean, nombreProducto, bultoPallet, unidadCaja, vigenciaProducto, bloqueoProducto, precioUSD, estadoProducto }) => ({
             codigoProducto,
             codigoCategoria,
             nombreCategoria,
+            codigoRotacion,
+            nombreRotacion,
+            colorRotacion,
             truck,
             sap,
             ean,
@@ -44,6 +47,7 @@ export const modelListarProducto = async (parametros) => {
 
 export const modelInsertarProducto = async (parametros) => {
     const paramsQuery = [
+        parametros.codigoRotacion,
         parametros.codigoCategoria,
         parametros.truck,
         parametros.sap,
@@ -74,6 +78,7 @@ export const modelInsertarProducto = async (parametros) => {
 
 export const modelEditarProducto = async (parametros) => {
     const paramsQuery = [
+        parametros.codigoRotacion,
         parametros.codigoCategoria,
         parametros.truck,
         parametros.sap,
@@ -127,6 +132,7 @@ export const modelMantenerProducto = async (parametros) => {
 
 export const upsertProductosDesdeCSV = async (rutaCSV) => {
     const columnas = [
+        "codigoRotacion",
         "codigoCategoria",
         "truck",
         "sap",

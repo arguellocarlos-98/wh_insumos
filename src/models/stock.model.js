@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
-import { listarProcedure, insertarProcedure, actualizarProcedure } from "../db/operations.db.js";
-import { queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
+import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
+import { queryDeshabilitarStockPorSucursal, queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
 import moment from "moment";
 
 export const modelListarStock = async (parametros) => {
@@ -126,7 +126,7 @@ export const modelMantenerStock = async (parametros) => {
     }
 };
 
-export const modelUpsert = async (parametros) => {
+export const modelUpsertStockCSV = async (parametros) => {
     const columsQuery = [
         "codigoEstiba",
         "codigoProducto",
@@ -140,7 +140,7 @@ export const modelUpsert = async (parametros) => {
     ];
 
     try {
-        return await upsertCSV(parametros, columsQuery, queryUpsertStockCSV);
+        return await upsertCSV(parametros, columsQuery, queryUpsertStockCSV, queryDeshabilitarStockPorSucursal);
     } catch (error) {
         Sentry.captureException(error);
         throw error;
