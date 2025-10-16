@@ -10,6 +10,7 @@ import rotacionesRoutes from './rotaciones.routes.js';
 import estibasRoutes from './estibas.routes.js';
 import categoriasRoutes from './productos_categorias.routes.js';
 import productosRoutes from './productos.routes.js';
+import stockRoutes from './stock.routes.js';
 
 const router = Router()
 
@@ -23,5 +24,6 @@ router.use(rotacionesRoutes);
 router.use(estibasRoutes);
 router.use(categoriasRoutes);
 router.use(productosRoutes);
+router.use(stockRoutes);
 
 export default router
