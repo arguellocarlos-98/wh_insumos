@@ -9,7 +9,7 @@ export const queryEditarStock = "call `sp_editarStock` (?,?,?,?,?,?,?,?,?,?);";
 // Mantener Stock
 export const queryMantenerStock = "call `sp_mantenerStock` (?,?,?);";
 // Insertar Stock de Manera Masiva
-export const queryInsertarStockCSV = `
+export const queryUpsertStockCSV = `
 INSERT INTO stock (
   codigoEstiba,
   codigoProducto,
@@ -21,15 +21,5 @@ INSERT INTO stock (
   cantidadStock,
   usuarioInsercion
 )
-VALUES ?
-ON DUPLICATE KEY UPDATE
-  codigoEstiba = VALUES(codigoEstiba),
-  codigoProducto = VALUES(codigoProducto),
-  codigoBarra = VALUES(codigoBarra),
-  lotePlanta = VALUES(lotePlanta),
-  loteProducto = VALUES(loteProducto),
-  fechaFabricacion = VALUES(fechaFabricacion),
-  fechaVencimiento = VALUES(fechaVencimiento),
-  cantidadStock = VALUES(cantidadStock),
-  usuarioEdicion = VALUES(usuarioInsercion);
+VALUES ?;
 `;

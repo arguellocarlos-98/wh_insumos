@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { listarProcedure, insertarProcedure, actualizarProcedure } from "../db/operations.db.js";
-import { queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock } from "../queries/stock.queries.js";
+import { queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
 import moment from "moment";
 
 export const modelListarStock = async (parametros) => {
@@ -16,7 +16,7 @@ export const modelListarStock = async (parametros) => {
         const found = result.found;
         const rows = result.data;
 
-        const data = found ? rows.map(({ codigoStock, sapDeposito, nombreDeposito, codigoEstiba, nombreEstiba, codigoProducto, truck, sap, nombreProducto, codigoBarra, ean, lotePlanta, loteProducto, fechaFabricacion, fechaVencimiento, cantidadStock, abc,estadoStock }) => ({
+        const data = found ? rows.map(({ codigoStock, sapDeposito, nombreDeposito, codigoEstiba, nombreEstiba, codigoProducto, truck, sap, nombreProducto, codigoBarra, ean, lotePlanta, loteProducto, fechaFabricacion, fechaVencimiento, cantidadStock, abc, estadoStock }) => ({
             codigoStock,
             sapDeposito,
             nombreDeposito,
@@ -28,10 +28,10 @@ export const modelListarStock = async (parametros) => {
             nombreProducto,
             codigoBarra: codigoBarra ? codigoBarra : "",
             ean,
-            lotePlanta,
-            loteProducto,
-            fechaFabricacion: fechaFabricacion ? moment(fechaFabricacion).format("DD-MM-YYYY") : "",
-            fechaVencimiento: fechaVencimiento ? moment(fechaVencimiento).format("DD-MM-YYYY") : "",
+            lotePlanta: lotePlanta ? lotePlanta : "",
+            loteProducto: loteProducto ? loteProducto : "",
+            fechaFabricacion: fechaFabricacion ? moment(fechaFabricacion).format("YYYY-DD-DD") : "",
+            fechaVencimiento: fechaVencimiento ? moment(fechaVencimiento).format("YYYY-DD-DD") : "",
             cantidadStock,
             abc: abc === 1,
             estadoStock: estadoStock === 1
@@ -125,3 +125,24 @@ export const modelMantenerStock = async (parametros) => {
         throw error;
     }
 };
+
+export const modelUpsert = async (parametros) => {
+    const columsQuery = [
+        "codigoEstiba",
+        "codigoProducto",
+        "codigoBarra",
+        "lotePlanta",
+        "loteProducto",
+        "fechaFabricacion",
+        "fechaVencimiento",
+        "cantidadStock",
+        "codigoUsuario"
+    ];
+
+    try {
+        return await upsertCSV(parametros, columsQuery, queryUpsertStockCSV);
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+}

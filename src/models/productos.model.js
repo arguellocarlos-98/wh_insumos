@@ -3,8 +3,6 @@ import * as Sentry from "@sentry/node";
 import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
 import { queryListarProducto, queryInsertarProducto, queryEditarProducto, queryMantenerProducto, queryUpsertProducto } from "../queries/productos.queries.js";
 
-import { DatabaseError } from "../errors/AppError.js";
-
 export const modelListarProducto = async (parametros) => {
     const paramsQuery = [
         parametros.filtro
