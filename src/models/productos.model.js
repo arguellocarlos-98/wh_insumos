@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/node";
 
 import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
-import { queryListarProducto, queryInsertarProducto, queryEditarProducto, queryMantenerProducto, queryUpsertProducto } from "../queries/productos.queries.js";
+import { queryListarProducto, queryInsertarProducto, queryEditarProducto, queryMantenerProducto, queryUpsertProducto, queryBuscarProducto } from "../queries/productos.queries.js";
 
 export const modelListarProducto = async (parametros) => {
     const paramsQuery = [
@@ -147,6 +147,48 @@ export const upsertProductosDesdeCSV = async (rutaCSV) => {
     ];
     try {
         return await upsertCSV(rutaCSV, columnas, queryUpsertProducto);
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelBuscarProducto = async (parametros) => {
+    const paramsQuery = [
+        parametros.filtro
+    ];
+
+    try {
+        const result = await listarProcedure(queryBuscarProducto, paramsQuery);
+        if (!result.estado) return result;
+
+        const rows = result.data;
+        const found = result.found;
+
+        const data = found ? rows.map(({ codigoProducto, codigoCategoria, nombreCategoria, codigoRotacion, nombreRotacion, colorRotacion, truck, sap, ean, nombreProducto, bultoPallet, unidadCaja, vigenciaProducto, bloqueoProducto, precioUSD, estadoProducto }) => ({
+            codigoProducto,
+            codigoCategoria,
+            nombreCategoria,
+            codigoRotacion,
+            nombreRotacion,
+            colorRotacion,
+            truck,
+            sap,
+            ean,
+            nombreProducto,
+            bultoPallet,
+            unidadCaja,
+            vigenciaProducto,
+            bloqueoProducto,
+            precioUSD,
+            estadoProducto: estadoProducto === 1
+        })) : [];
+
+        return {
+            estado: true,
+            found,
+            data
+        };
     } catch (error) {
         Sentry.captureException(error);
         throw error;

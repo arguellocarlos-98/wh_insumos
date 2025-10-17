@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 
-import { modelEditarProducto, modelInsertarProducto, modelListarProducto, modelMantenerProducto, upsertProductosDesdeCSV } from "../models/productos.model.js";
+import { modelBuscarProducto, modelEditarProducto, modelInsertarProducto, modelListarProducto, modelMantenerProducto, upsertProductosDesdeCSV } from "../models/productos.model.js";
 
 export const listarProducto = async (req, res, next) => {
     const parametros = req.params;
@@ -56,5 +56,15 @@ export const cargarProductosCSV = async (req, res, next) => {
         next(error);
     } finally {
         await fs.unlink(rutaCSV).catch(() => { });
+    }
+};
+
+export const buscarProducto = async (req, res, next) => {
+    const parametros = req.params;
+    try {
+        const result = await modelBuscarProducto(parametros);
+        res.json(result);
+    } catch (error) {
+        next(error);
     }
 };

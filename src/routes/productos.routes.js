@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import path from "path";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
-import { editarProducto, insertarProducto, listarProducto, mantenerProducto, cargarProductosCSV } from "../controllers/productos.controller.js";
+import { editarProducto, insertarProducto, listarProducto, mantenerProducto, cargarProductosCSV, buscarProducto } from "../controllers/productos.controller.js";
 
 const router = Router();
 
@@ -25,6 +25,7 @@ const upload = multer({
     },
 });
 
+router.get("/productos/buscar/:filtro", buscarProducto);
 router.get("/productos/:filtro", authMiddleware, listarProducto);
 
 router.post("/productos", authMiddleware, insertarProducto);

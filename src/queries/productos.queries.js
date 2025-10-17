@@ -43,3 +43,5 @@ export const queryUpsertProducto = `
     usuarioEdicion = VALUES(usuarioInsercion),
     fechaEdicion = CURRENT_TIMESTAMP();
 `;
+
+export const queryBuscarProducto = "call `sp_buscarProducto`(?);";
