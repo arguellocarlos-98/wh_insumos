@@ -30,8 +30,8 @@ export const modelListarStock = async (parametros) => {
             ean,
             lotePlanta: lotePlanta ? lotePlanta : "",
             loteProducto: loteProducto ? loteProducto : "",
-            fechaFabricacion: fechaFabricacion ? moment(fechaFabricacion).format("YYYY-DD-DD") : "",
-            fechaVencimiento: fechaVencimiento ? moment(fechaVencimiento).format("YYYY-DD-DD") : "",
+            fechaFabricacion: fechaFabricacion ? moment(fechaFabricacion).format("YYYY-MM-DD") : "",
+            fechaVencimiento: fechaVencimiento ? moment(fechaVencimiento).format("YYYY-MM-DD") : "",
             cantidadStock,
             abc: abc === 1,
             estadoStock: estadoStock === 1
