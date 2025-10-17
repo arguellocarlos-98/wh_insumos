@@ -86,7 +86,7 @@ export const upsertCSV = async (rutaCSV, columnas, queryUpsert, preQuery = null)
     if (!registros.length) throw new DatabaseError("CSV vacío o mal formateado");
 
     // Tomar el primer usuario del CSV (todos deben pertenecer a la misma sucursal)
-    const codigoUsuario = registros[0]?.usuarioInsercion;
+    const codigoUsuario = registros[0]?.codigoUsuario;
     if (!codigoUsuario) throw new DatabaseError("No se encontró codigoUsuario en el CSV");
 
     // Mapear cada registro a un array según las columnas
