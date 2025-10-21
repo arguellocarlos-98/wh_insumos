@@ -10,8 +10,13 @@ const app = express()
 const port = (environment.prod) ? environment.api_port_prod : environment.api_port_dev
 const api = '/api'
 
+const allowedOrigins = [
+  "http://localhost:8888",
+  "https://insumos.cervepar-planta.com"
+];
+
 app.use(cors({
-  origin: 'http://localhost:8888',
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json())
