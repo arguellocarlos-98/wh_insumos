@@ -30,4 +30,8 @@ export const queryUpsertProducto = `
     fechaEdicion = CURRENT_TIMESTAMP();
 `;
 
+// Buscar producto en maestro
 export const queryBuscarProducto = "call `sp_buscarProducto`(?);";
+
+// Listado de Unidades de Medida a sugerir
+export const querySugerenciaUnidadMedida = "CALL `sp_sugerenciaUnidadMedida`();";

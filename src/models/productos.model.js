@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/node";
 
 import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
-import { queryListarProducto, queryInsertarProducto, queryEditarProducto, queryMantenerProducto, queryUpsertProducto, queryBuscarProducto } from "../queries/productos.queries.js";
+import { queryListarProducto, queryInsertarProducto, queryEditarProducto, queryMantenerProducto, queryUpsertProducto, queryBuscarProducto, querySugerenciaUnidadMedida } from "../queries/productos.queries.js";
 
 export const modelListarProducto = async (parametros) => {
     const paramsQuery = [
@@ -15,7 +15,7 @@ export const modelListarProducto = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoProducto, codigoMoneda, siglaMoneda, sap, nombreProducto, precioUSD, unidadMedida,estadoProducto }) => ({
+        const data = found ? rows.map(({ codigoProducto, codigoMoneda, siglaMoneda, sap, nombreProducto, precioUSD, unidadMedida, estadoProducto }) => ({
             codigoProducto,
             codigoMoneda,
             siglaMoneda,
@@ -152,6 +152,27 @@ export const modelBuscarProducto = async (parametros) => {
             found,
             data
         };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelSugerenciaUnidadMedida = async () => {
+    try {
+        const result = await listarProcedure(querySugerenciaUnidadMedida);
+        if (!result.estado) return result;
+
+        const rows = result.data;
+        const found = result.found;
+
+        const data = found ? rows.map(r => r.unidadMedida) : [];
+
+        return {
+            estado: true,
+            found,
+            data
+        }
     } catch (error) {
         Sentry.captureException(error);
         throw error;
