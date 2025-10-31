@@ -11,6 +11,8 @@ import estibasRoutes from './estibas.routes.js';
 import categoriasRoutes from './productos_categorias.routes.js';
 import productosRoutes from './productos.routes.js';
 import stockRoutes from './stock.routes.js';
+import monedasRoutes from './monedas.routes.js';
+import conversionesRoutes from './conversiones.routes.js';
 
 const router = Router()
 
@@ -25,5 +27,7 @@ router.use(estibasRoutes);
 router.use(categoriasRoutes);
 router.use(productosRoutes);
 router.use(stockRoutes);
+router.use(monedasRoutes);
+router.use(conversionesRoutes);
 
 export default router
