@@ -132,18 +132,11 @@ export const modelMantenerProducto = async (parametros) => {
 
 export const upsertProductosDesdeCSV = async (rutaCSV) => {
     const columnas = [
-        "codigoRotacion",
-        "codigoCategoria",
-        "truck",
         "sap",
-        "ean",
         "nombreProducto",
-        "bultoPallet",
-        "unidadCaja",
-        "vigenciaProducto",
-        "bloqueoProducto",
         "precioUSD",
-        "codigoUsuario",
+        "unidadMedida",
+        "codigoUsuario"
     ];
     try {
         return await upsertCSV(rutaCSV, columnas, queryUpsertProducto);

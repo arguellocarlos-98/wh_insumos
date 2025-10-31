@@ -14,32 +14,18 @@ export const queryMantenerProducto = "call `sp_mantenerProducto`(?,?,?);";
 // UPSERT (insertar o actualizar si existe)
 export const queryUpsertProducto = `
   INSERT INTO productos (
-    codigoRotacion,
-    codigoCategoria,
-    truck,
     sap,
-    ean,
     nombreProducto,
-    bultoPallet,
-    unidadCaja,
-    vigenciaProducto,
-    bloqueoProducto,
     precioUSD,
+    unidadMedida,
     usuarioInsercion
   )
   VALUES ?
   ON DUPLICATE KEY UPDATE
-    codigoRotacion = VALUES(codigoRotacion),
-    codigoCategoria = VALUES(codigoCategoria),
-    truck = VALUES(truck),
     sap = VALUES(sap),
-    ean = VALUES(ean),
     nombreProducto = VALUES(nombreProducto),
-    bultoPallet = VALUES(bultoPallet),
-    unidadCaja = VALUES(unidadCaja),
-    vigenciaProducto = VALUES(vigenciaProducto),
-    bloqueoProducto = VALUES(bloqueoProducto),
     precioUSD = VALUES(precioUSD),
+    unidadMedida = VALUES(unidadMedida),
     usuarioEdicion = VALUES(usuarioInsercion),
     fechaEdicion = CURRENT_TIMESTAMP();
 `;
