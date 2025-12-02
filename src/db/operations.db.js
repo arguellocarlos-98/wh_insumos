@@ -1,6 +1,4 @@
 import pool from '../config/pool.config.js';
-import path from "path";
-import fs from "fs";
 import { generarSQLLog } from '../utils/sql.helper.js';
 import { DatabaseError } from '../errors/AppError.js';
 

@@ -1,10 +1,14 @@
 import { Router } from 'express'
-import { _sp_listarRemitoxFecha, sp_insertarRemito } from '../controllers/remito.controller.js'
+import { insertarRemito } from '../controllers/remito.controller.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = Router()
 
-router.get('/remitos/listar/:codigoSucursal/:fechaInicio/:fechaFin', _sp_listarRemitoxFecha)
+// PETICIONES GET
 
-router.post('/remitos', sp_insertarRemito)
+// PETICIONES POST
+router.post("/remito", authMiddleware, insertarRemito);
 
-export default router
+// PETICIONES PATCH
+
+export default router;

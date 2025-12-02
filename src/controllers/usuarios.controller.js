@@ -1,6 +1,6 @@
 import { modelEditarUsuario, modelInsertarUsuario, modelListarUsuario, modelLoginUsuario, modelMantenerUsuario } from "../models/usuarios.model.js";
 import jwt from 'jsonwebtoken';
-import { keys, environment } from '../../env.js'
+import { keys, environment } from '../../env.js';
 
 export const insertarUsuario = async (req, res, next) => {
     const parametros = req.body;
