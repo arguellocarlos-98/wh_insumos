@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
-import { queryDeshabilitarStockPorSucursal, queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
+import { queryBuscarStockDescripcionLote, queryDeshabilitarStockPorSucursal, queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
 import moment from "moment";
 
 export const modelListarStock = async (parametros) => {
@@ -145,4 +145,42 @@ export const modelUpsertStockCSV = async (parametros) => {
         Sentry.captureException(error);
         throw error;
     }
-}
+};
+
+export const modelBuscarStockDescripcionLote = async (params) => {
+    const paramsQuery = [
+        params.codigoSucursal,
+        params.filtro,
+        params.campo
+    ];
+
+    try {
+        const result = await listarProcedure(queryBuscarStockDescripcionLote, paramsQuery);
+        if (!result.estado) return result;
+
+        const rows = result.data;
+        const found = result.found;
+
+        const data = found ? rows.map(({ codigoStock, nombreEstiba, nombreZona, nombreBodega, nombreDeposito, sap, nombreProducto, cantidadStock, unidadMedida, lotePlanta, loteProducto }) => ({
+            codigoStock,
+            nombreEstiba,
+            nombreZona,
+            nombreBodega,
+            nombreDeposito,
+            sap,
+            nombreProducto,
+            cantidadStock,
+            unidadMedida,
+            lotePlanta,
+            loteProducto
+        })) : [];
+        return {
+            estado: true,
+            found,
+            data
+        };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};

@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 import path from "path";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
-import { editarStock, insertarStock, listarStock, mantenerStock,upsertStockCSV } from "../controllers/stock.controller.js";
+import { buscarStockDescripcionLote, editarStock, insertarStock, listarStock, mantenerStock, upsertStockCSV } from "../controllers/stock.controller.js";
 
 const router = Router();
 
@@ -25,6 +25,7 @@ const upload = multer({
     },
 });
 
+router.get("/stock/buscar/:codigoSucursal/:filtro/:campo", authMiddleware,buscarStockDescripcionLote);
 router.get("/stock/:codigoSucursal/:filtro", authMiddleware, listarStock);
 
 router.post("/stock", authMiddleware, insertarStock);

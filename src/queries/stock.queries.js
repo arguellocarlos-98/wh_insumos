@@ -39,3 +39,5 @@ WHERE usuarioInsercion IN (
   )
 );
 `;
+// Buscar Stock por Codigo, Descripcion o Lote
+export const queryBuscarStockDescripcionLote = "CALL `sp_buscarStockxDescripcionLote`(?,?,?);";
