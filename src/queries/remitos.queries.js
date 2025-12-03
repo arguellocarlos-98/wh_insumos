@@ -28,4 +28,7 @@ export const queryActualizarRemitoDetalle = "CALL `sp_actualizarRemitoDetalle`(?
 export const queryRecibirRemito = "CALL `sp_recibirRemito`(?,?);";
 
 // Agregar al Stock desde el Remito de Salida (Recepcion)
-export const queryAgregarStockxremito = "";
+export const queryAgregarStockxremito = "CALL `sp_clonarStock`(?,?,?,?);";
+
+// Descontar Stock al Marcar Remito como Entregado
+export const queryDescontarStock = "CALL `sp_descontarStock`(?,?,?);";

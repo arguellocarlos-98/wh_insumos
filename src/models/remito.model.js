@@ -5,6 +5,7 @@ import {
     queryBuscarRemitoPreparado,
     queryBuscarRemitoRecibido,
     queryConfirmarRemito,
+    queryDescontarStock,
     queryInsertarRemito,
     queryInsertarRemitoDetalle,
     queryInsertarRemitoIndicador,
@@ -191,7 +192,16 @@ export const modelConfirmarRemito = async (parametros) => {
                 ];
 
                 const detResult = await actualizarProcedure(queryActualizarRemitoDetalle, paramsDetalle);
-                if (!detResult.estado) { return detResult; }
+                if (!detResult.estado) return detResult;
+
+                // 2) Descontar Stock
+                const paramsDescuento = [
+                    item.codigoStock,
+                    item.cantidadEnviada,
+                    parametros.codigoUsuario
+                ];
+                const descResult = await actualizarProcedure(queryDescontarStock, paramsDescuento);
+                if (!descResult.estado) return descResult;
             }
         };
 
@@ -251,17 +261,21 @@ export const modelRecibirRemito = async (parametros) => {
     ];
 
     try {
+        // 1) Actualizar encabezado del remito como recibido
         const result = await actualizarProcedure(queryRecibirRemito, paramsQuery);
         if (!result.estado) return result;
 
+        // 2) Procesar detalles (clonar stock)
         if (Array.isArray(parametros.detalle)) {
             for (const item of parametros.detalle) {
                 const paramsDetalle = [
-                    item.codigoEstiba,
-                    item.cantidadEnviada
+                    item.codigoStock,           // stock original
+                    item.codigoEstiba,          // nueva ubicación
+                    item.cantidadEnviada,       // cantidad a clonar
+                    parametros.codigoUsuario    // usuario de inserción
                 ];
 
-                const detResult = await actualizarProcedure(queryAgregarStockxremito, paramsDetalle);
+                const detResult = await insertarProcedure(queryAgregarStockxremito, paramsDetalle);
                 if (!detResult.estado) { return detResult; }
             }
         };
@@ -269,7 +283,10 @@ export const modelRecibirRemito = async (parametros) => {
         return {
             estado: result.estado,
             found: result.found,
-            data: result.data
+            data: {
+                encabezado: result.data,
+                detalleProcesado: parametros.detalle?.length || 0
+            }
         };
     } catch (error) {
         Sentry.captureException(error);
