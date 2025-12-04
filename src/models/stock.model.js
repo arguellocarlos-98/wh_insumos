@@ -161,7 +161,7 @@ export const modelBuscarStockDescripcionLote = async (params) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoStock, nombreEstiba, nombreZona, nombreBodega, nombreDeposito, sap, nombreProducto, cantidadStock, unidadMedida, lotePlanta, loteProducto }) => ({
+        const data = found ? rows.map(({ codigoStock, nombreEstiba, nombreZona, nombreBodega, nombreDeposito, sap, nombreProducto, cantidadStock, unidadMedida, lotePlanta, loteProducto, fechaFabricacion, fechaVencimiento }) => ({
             codigoStock,
             nombreEstiba,
             nombreZona,
@@ -172,7 +172,9 @@ export const modelBuscarStockDescripcionLote = async (params) => {
             cantidadStock,
             unidadMedida,
             lotePlanta,
-            loteProducto
+            loteProducto,
+            fechaFabricacion: moment(fechaFabricacion).format("YYYY-MM-DD"),
+            fechaVencimiento: moment(fechaVencimiento).format("YYYY-MM-DD"),
         })) : [];
         return {
             estado: true,
