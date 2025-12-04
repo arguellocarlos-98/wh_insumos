@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/node";
 import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
 import { queryBuscarStockDescripcionLote, queryDeshabilitarStockPorSucursal, queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
 import moment from "moment";
+import { capturaError } from "../helpers/capturaError.helper.js";
 
 export const modelListarStock = async (parametros) => {
     const paramsQuery = [
@@ -156,7 +157,6 @@ export const modelBuscarStockDescripcionLote = async (params) => {
 
     try {
         const result = await listarProcedure(queryBuscarStockDescripcionLote, paramsQuery);
-        if (!result.estado) return result;
 
         const rows = result.data;
         const found = result.found;

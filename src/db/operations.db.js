@@ -14,7 +14,7 @@ export const listarProcedure = async (sql, params = []) => {
     };
   } catch (error) {
     throw new DatabaseError(
-      `Error en query: ${error.message} | SQL: ${generarSQLLog(sql, params)}`
+      `Error en SELECT: ${error.message} | SQL: ${generarSQLLog(sql, params)}`
     );
   }
 };
