@@ -1,4 +1,4 @@
-import { modelBuscarRemitoPreparado, modelBuscarRemitoRecibido, modelConfirmarRemito, modelInsertarRemito, modelMostrarRemitoDetallexCod, modelRecibirRemito } from "../models/remito.model.js";
+import { modelBuscarRemitoPreparado, modelBuscarRemitoRecibido, modelConfirmarRemito, modelInsertarRemito, modelInsertarRemitoCheck, modelInsertarRemitoPanel, modelMostrarRemitoDetallexCod, modelRecibirRemito } from "../models/remito.model.js";
 
 export const insertarRemito = async (req, res, next) => {
     try {
@@ -54,6 +54,26 @@ export const recibirRemito = async (req, res, next) => {
     try {
         const parametros = req.body;
         const result = await modelRecibirRemito(parametros);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const insertarRemitoPanel = async (req, res, next) => {
+    try {
+        const parametros = req.body;
+        const result = await modelInsertarRemitoPanel(parametros);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const insertarRemitoCheck = async (req, res, next) => {
+    try {
+        const parametros = req.body;
+        const result = await modelInsertarRemitoCheck(parametros);
         res.json(result);
     } catch (error) {
         next(error);

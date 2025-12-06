@@ -31,7 +31,7 @@ export const mostrarProcedure = async (sql, params) => {
   };
 };
 
-export const insertarProcedure = async (sql, params) => {
+export const insertarProcedure = async (sql, params, connection = null) => {
   try {
     const result = await pool.query(sql, params);
     const esArrayDoble = Array.isArray(result) && Array.isArray(result[0]);
@@ -47,7 +47,7 @@ export const insertarProcedure = async (sql, params) => {
   }
 };
 
-export const actualizarProcedure = async (sql, params = []) => {
+export const actualizarProcedure = async (sql, params = [], connection = null) => {
   try {
     const result = await pool.query(sql, params);
     return {

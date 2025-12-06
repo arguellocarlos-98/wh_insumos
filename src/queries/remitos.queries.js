@@ -32,3 +32,9 @@ export const queryAgregarStockxremito = "CALL `sp_clonarStock`(?,?,?,?);";
 
 // Descontar Stock al Marcar Remito como Entregado
 export const queryDescontarStock = "CALL `sp_descontarStock`(?,?,?);";
+
+// Insertar Remito Completo desde el Panel (Encabezado)
+export const queryInsertarRemitoPanel = "CALL `sp_insertarRemitoPanel`(?,?,?,?,?,?);";
+
+// Insertar Remito Sectorial  desde el Panel (Encabezado)
+export const queryInsertarRemitoCheck = "CALL `sp_insertarRemitoCheck`(?,?,?,?,?,?,?);";

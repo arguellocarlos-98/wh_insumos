@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { buscarRemitoPreparado, buscarRemitoRecibido, entregarRemito, insertarRemito, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
+import { buscarRemitoPreparado, buscarRemitoRecibido, entregarRemito, insertarRemito, insertarRemitoCheck, insertarRemitoPanel, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = Router()
@@ -11,6 +11,8 @@ router.get("/remito/preparacion_carga/:codigoRemito", mostrarRemitoDetallexCod);
 
 // PETICIONES POST
 router.post("/remito", authMiddleware, insertarRemito);
+router.post("/remito/panel", authMiddleware, insertarRemitoPanel);
+router.post("/remito/check", authMiddleware, insertarRemitoCheck);
 
 // PETICIONES PATCH
 router.patch("/remito/entregar", entregarRemito);

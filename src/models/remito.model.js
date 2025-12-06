@@ -7,8 +7,10 @@ import {
     queryConfirmarRemito,
     queryDescontarStock,
     queryInsertarRemito,
+    queryInsertarRemitoCheck,
     queryInsertarRemitoDetalle,
     queryInsertarRemitoIndicador,
+    queryInsertarRemitoPanel,
     queryMostrarRemitoDetallexCod,
     queryRecibirRemito
 } from "../queries/remitos.queries.js";
@@ -27,7 +29,6 @@ const insertarEncabezado = async (params) => {
         params.preparacionCarga,
         params.codigoUsuario
     ];
-
     return insertarProcedure(queryInsertarRemito, p);
 };
 
@@ -66,7 +67,6 @@ export const modelInsertarRemito = async (params) => {
     try {
         // 1) Insertar encabezado
         const encabezado = await insertarEncabezado(params);
-        if (!encabezado.estado) return encabezado;
 
         const codigoRemito = encabezado.data[0]?.codigoRemito;
         if (!codigoRemito) throw new Error("No se obtuvo codigoRemito");
@@ -139,7 +139,6 @@ export const modelMostrarRemitoDetallexCod = async (parametros) => {
 
     try {
         const result = await listarProcedure(queryMostrarRemitoDetallexCod, paramsQuery);
-        if (!result.estado) return result;
 
         const rows = result.data;
         const found = result.found;
@@ -180,7 +179,6 @@ export const modelConfirmarRemito = async (parametros) => {
 
     try {
         const result = await actualizarProcedure(queryConfirmarRemito, paramsQueryEncabezado);
-        if (!result.estado) return result;
 
         if (Array.isArray(parametros.detalle)) {
             for (const item of parametros.detalle) {
@@ -229,7 +227,6 @@ export const modelBuscarRemitoRecibido = async (parametros) => {
 
     try {
         const result = await listarProcedure(queryBuscarRemitoRecibido, paramsQuery);
-        if (!result.estado) return result;
 
         const rows = result.data;
         const found = result.found;
@@ -263,7 +260,6 @@ export const modelRecibirRemito = async (parametros) => {
     try {
         // 1) Actualizar encabezado del remito como recibido
         const result = await actualizarProcedure(queryRecibirRemito, paramsQuery);
-        if (!result.estado) return result;
 
         // 2) Procesar detalles (clonar stock)
         if (Array.isArray(parametros.detalle)) {
@@ -288,6 +284,91 @@ export const modelRecibirRemito = async (parametros) => {
                 detalleProcesado: parametros.detalle?.length || 0
             }
         };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+const insertarEncabezadoPanel = async (params) => {
+    const p = [
+        params.codigoDeposito,
+        params.tipoRemito,
+        params.numeroPedido,
+        params.remitoSalida,
+        params.observacionRemito,
+        params.codigoUsuario
+    ];
+    return insertarProcedure(queryInsertarRemitoPanel, p);
+};
+
+export const modelInsertarRemitoPanel = async (params) => {
+    try {
+        const encabezado = await insertarEncabezadoPanel(params);
+        const codigoRemito = encabezado.data[0]?.codigoRemito;
+        if (!codigoRemito) throw new Error("No se obtuvo codigoRemito");
+
+        if (Array.isArray(params.detalle) && params.detalle.length > 0) {
+            for (const det of params.detalle) {
+                const resultDet = await insertarDetalle(codigoRemito, det);
+                if (!resultDet.estado) return resultDet;
+            }
+        };
+
+        if (Array.isArray(params.indicadores) && params.indicadores.length > 0) {
+            for (const indicador of params.indicadores) {
+                const resultIndicador = await insertarIndicador(codigoRemito, indicador);
+                if (!resultIndicador.estado) return resultIndicador;
+            }
+        };
+        return {
+            estado: true,
+            codigoRemito
+        };
+
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+const insertarEncabezadoCheck = async (params) => {
+    const p = [
+        params.codigoSubsector,
+        params.codigoDeposito,
+        params.tipoRemito,
+        params.numeroPedido,
+        params.remitoSalida,
+        params.observacionRemito,
+        params.codigoUsuario
+    ];
+    return insertarProcedure(queryInsertarRemitoCheck, p);
+};
+
+export const modelInsertarRemitoCheck = async (params) => {
+    try {
+        const encabezado = await insertarEncabezadoCheck(params);
+        const codigoRemito = encabezado.data[0]?.codigoRemito;
+        if (!codigoRemito) throw new Error("No se obtuvo codigoRemito");
+
+        if (Array.isArray(params.detalle) && params.detalle.length > 0) {
+            for (const det of params.detalle) {
+                const resultDet = await insertarDetalle(codigoRemito, det);
+                if (!resultDet.estado) return resultDet;
+            }
+        };
+
+        if (Array.isArray(params.indicadores) && params.indicadores.length > 0) {
+            for (const indicador of params.indicadores) {
+                const resultIndicador = await insertarIndicador(codigoRemito, indicador);
+                if (!resultIndicador.estado) return resultIndicador;
+            }
+        };
+        return {
+            estado: true,
+            codigoRemito
+        };
+
     } catch (error) {
         Sentry.captureException(error);
         throw error;

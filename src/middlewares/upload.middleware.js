@@ -6,7 +6,7 @@ const uploadsFolder = path.resolve("src/uploads");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadsFolder); // aquí apunta a src/uploads
+    cb(null, uploadsFolder); // aca apunta a src/uploads
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);

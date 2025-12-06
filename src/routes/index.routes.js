@@ -14,6 +14,7 @@ import stockRoutes from './stock.routes.js';
 import monedasRoutes from './monedas.routes.js';
 import conversionesRoutes from './conversiones.routes.js';
 import indicadoresRoutes from './indicadores.routes.js';
+import versionsRoutes from './versions.routes.js';
 
 const router = Router()
 
@@ -31,5 +32,6 @@ router.use(stockRoutes);
 router.use(monedasRoutes);
 router.use(conversionesRoutes);
 router.use(indicadoresRoutes);
+router.use(versionsRoutes);
 
 export default router
