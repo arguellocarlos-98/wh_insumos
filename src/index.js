@@ -12,6 +12,8 @@ const app = express();
 // CORS, JSON, cookies, uploads
 // -----------------------------
 const allowedOrigins = [
+  "http://localhost",
+  "http://localhost:8100",
   "http://localhost:8888",
   "https://insumos.cervepar-planta.com"
 ];
