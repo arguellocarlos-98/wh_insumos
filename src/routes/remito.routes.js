@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { buscarRemitoPreparado, buscarRemitoRecibido, cancelarRemito, entregarRemito, insertarRemito, insertarRemitoCheck, insertarRemitoPanel, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
+import { buscarRemitoPreparado, buscarRemitoRecibido, cancelarRemito, editarRemitoDetalle, entregarRemito, insertarRemito, insertarRemitoCheck, insertarRemitoPanel, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = Router()
@@ -18,5 +18,6 @@ router.post("/remito/check", authMiddleware, insertarRemitoCheck);
 router.patch("/remito/entregar", entregarRemito);
 router.patch("/remito/recibir", recibirRemito);
 router.patch("/remito/cancelar", cancelarRemito);
+router.patch("/remito/editar/detalle", editarRemitoDetalle);
 
 export default router;

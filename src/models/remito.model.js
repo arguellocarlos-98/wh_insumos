@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/node";
 import {
     queryActualizarRemitoDetalle,
+    queryActualizarRemitoDetalleV2,
     queryAgregarStockxremito,
     queryBuscarRemitoPreparado,
     queryBuscarRemitoRecibido,
@@ -397,6 +398,30 @@ export const modelCancelarRemito = async (parametros) => {
 
         return {
             estado: result.estado,
+            found: result.found,
+            data: result.data
+        };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelActualizarRemitoDetalle = async (parametros) => {
+    const paramsQuery = [
+        parametros.codigoRemito,
+        parametros.codigoStock,
+        parametros.cantidadEnviada,
+        parametros.cantidadSolicitada,
+        parametros.documentoSap,
+        parametros.estadoRemitoDetalle 
+    ];
+
+    try {
+        const result = await actualizarProcedure(queryActualizarRemitoDetalleV2, paramsQuery);
+
+        return {
+            estado: true,
             found: result.found,
             data: result.data
         };
