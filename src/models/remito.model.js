@@ -438,6 +438,7 @@ export const modelInsertarRemitoDetalle = async (parametros) => {
         parametros.codigoStock,
         parametros.documentoSap,
         parametros.cantidadSolicitada,
+        parametros.cantidadEnviada,
         parametros.codigoUsuario
     ];
 
