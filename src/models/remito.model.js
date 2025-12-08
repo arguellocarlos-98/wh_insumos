@@ -117,7 +117,7 @@ export const modelBuscarRemitoPreparado = async (parametros) => {
 
         const data = found ? rows.map(({ codigoRemito, fechaRemito, tipoRemito, observacionRemito, preparacionCarga, remitoSalida, entregado, Origen, responsableEntrega, estadoRemito, Usuario }) => ({
             codigoRemito,
-            fechaRemito: moment(fechaRemito).format("yyyy-MM-DD"),
+            fechaRemito,
             tipoRemito,
             observacionRemito,
             preparacionCarga: preparacionCarga === 1,
@@ -243,7 +243,7 @@ export const modelBuscarRemitoRecibido = async (parametros) => {
             codigoDeposito,
             nombreDeposito,
             sapDeposito,
-            fechaRemito: moment(fechaRemito).format("YYYY-MM-DD"),
+            fechaRemito,
             observacionRemito,
             remitoSalida,
             estado: recibido,
