@@ -104,7 +104,8 @@ export const modelBuscarRemitoPreparado = async (parametros) => {
     const paramsQuery = [
         parametros.codigoSucursal,
         parametros.fechaInicio,
-        parametros.fechaFin
+        parametros.fechaFin,
+        parametros.filtro
     ];
 
     try {
@@ -227,7 +228,8 @@ export const modelBuscarRemitoRecibido = async (parametros) => {
     const paramsQuery = [
         parametros.codigoSucursal,
         parametros.fechaInicio,
-        parametros.fechaFin
+        parametros.fechaFin,
+        parametros.filtro
     ];
 
     try {

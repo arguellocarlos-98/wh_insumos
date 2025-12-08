@@ -5,8 +5,8 @@ import { authMiddleware } from '../middlewares/auth.middleware.js';
 const router = Router()
 
 // PETICIONES GET
-router.get("/remito/preparacion_carga/:codigoSucursal/:fechaInicio/:fechaFin", buscarRemitoPreparado);
-router.get("/remito/recibidos/:codigoSucursal/:fechaInicio/:fechaFin", buscarRemitoRecibido);
+router.get("/remito/preparacion_carga/:codigoSucursal/:fechaInicio/:fechaFin/:filtro", buscarRemitoPreparado);
+router.get("/remito/recibidos/:codigoSucursal/:fechaInicio/:fechaFin/:filtro", buscarRemitoRecibido);
 router.get("/remito/preparacion_carga/:codigoRemito", mostrarRemitoDetallexCod);
 
 // PETICIONES POST
