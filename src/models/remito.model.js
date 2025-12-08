@@ -4,6 +4,7 @@ import {
     queryAgregarStockxremito,
     queryBuscarRemitoPreparado,
     queryBuscarRemitoRecibido,
+    queryCancelarRemito,
     queryConfirmarRemito,
     queryDescontarStock,
     queryInsertarRemito,
@@ -113,13 +114,17 @@ export const modelBuscarRemitoPreparado = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoRemito, fechaRemito, tipoRemito, observacionRemito, preparacionCarga, Usuario }) => ({
+        const data = found ? rows.map(({ codigoRemito, fechaRemito, tipoRemito, observacionRemito, preparacionCarga, remitoSalida, entregado, Origen, responsableEntrega, estadoRemito, Usuario }) => ({
             codigoRemito,
             fechaRemito: moment(fechaRemito).format("yyyy-MM-DD"),
             tipoRemito,
             observacionRemito,
             preparacionCarga: preparacionCarga === 1,
-            Usuario
+            remitoSalida: remitoSalida ? remitoSalida : "",
+            estado: entregado,
+            responsable: responsableEntrega,
+            Usuario,
+            estadoRemito: estadoRemito === 1
         })) : [];
         return {
             estado: true,
@@ -231,14 +236,18 @@ export const modelBuscarRemitoRecibido = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoRemito, codigoDeposito, nombreDeposito, sapDeposito, fechaRemito, observacionRemito, Usuario }) => ({
+        const data = found ? rows.map(({ codigoRemito, codigoDeposito, nombreDeposito, sapDeposito, fechaRemito, observacionRemito, remitoSalida, recibido, responsableRecepcion, estadoRemito, Usuario }) => ({
             codigoRemito,
             codigoDeposito,
             nombreDeposito,
             sapDeposito,
             fechaRemito: moment(fechaRemito).format("YYYY-MM-DD"),
             observacionRemito,
-            Usuario
+            remitoSalida,
+            estado: recibido,
+            responsable: responsableRecepcion,
+            Usuario,
+            estadoRemito: estadoRemito === 1
         })) : [];
         return {
             estado: true,
@@ -369,6 +378,26 @@ export const modelInsertarRemitoCheck = async (params) => {
             codigoRemito
         };
 
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelCancelarRemito = async (parametros) => {
+    const paramsQuery = [
+        parametros.codigoUsuario,
+        parametros.codigoRemito
+    ];
+
+    try {
+        const result = await actualizarProcedure(queryCancelarRemito, paramsQuery);
+
+        return {
+            estado: result.estado,
+            found: result.found,
+            data: result.data
+        };
     } catch (error) {
         Sentry.captureException(error);
         throw error;
