@@ -11,6 +11,7 @@ import {
     queryInsertarRemito,
     queryInsertarRemitoCheck,
     queryInsertarRemitoDetalle,
+    queryInsertarRemitoDetallePanel,
     queryInsertarRemitoIndicador,
     queryInsertarRemitoPanel,
     queryMostrarRemitoDetallexCod,
@@ -414,7 +415,7 @@ export const modelActualizarRemitoDetalle = async (parametros) => {
         parametros.cantidadEnviada,
         parametros.cantidadSolicitada,
         parametros.documentoSap,
-        parametros.estadoRemitoDetalle 
+        parametros.estadoRemitoDetalle
     ];
 
     try {
@@ -425,6 +426,32 @@ export const modelActualizarRemitoDetalle = async (parametros) => {
             found: result.found,
             data: result.data
         };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelInsertarRemitoDetalle = async (parametros) => {
+    const paramsQuery = [
+        parametros.codigoRemito,
+        parametros.codigoStock,
+        parametros.documentoSap,
+        parametros.cantidadSolicitada,
+        parametros.codigoUsuario
+    ];
+
+    try {
+        const result = await insertarProcedure(queryInsertarRemitoDetallePanel, paramsQuery);
+
+        const codigoRemitoDetalle = result.data[0]?.codigoRemitoDetalle;
+        if (!codigoRemitoDetalle) throw new Error("No se pudo insertar detalle del remito");
+
+        return {
+            estado: true,
+            found: true,
+            codigoRemitoDetalle
+        }
     } catch (error) {
         Sentry.captureException(error);
         throw error;

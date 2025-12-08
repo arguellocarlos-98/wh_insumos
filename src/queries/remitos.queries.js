@@ -44,3 +44,6 @@ export const queryCancelarRemito = "CALL `sp_cancelarRemito`(?,?);";
 
 // Confirmar Remito como Listo (Detalle)
 export const queryActualizarRemitoDetalleV2 = "CALL `sp_actualizarRemitoDetalleV2`(?,?,?,?,?,?);";
+
+// Insertar Detalle de Remito
+export const queryInsertarRemitoDetallePanel = "CALL `sp_insertarRemitoDetalleV2`(?,?,?,?,?);";
