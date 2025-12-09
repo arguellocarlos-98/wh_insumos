@@ -13,7 +13,7 @@ export const queryInsertarRemitoIndicador = "CALL `sp_insertarRemitoIndicador`(?
 export const queryBuscarRemitoPreparado = "CALL `sp_buscarRemitoPreparado`(?,?,?,?);";
 
 // Mostrar Contenido del Remito
-export const queryMostrarRemitoDetallexCod = "CALL `sp_mostrarRemitoDetallexCod`(?);";
+export const queryMostrarRemitoDetallexCod = "CALL `sp_mostrarRemitoDetallexCod`(?,?);";
 
 // Confirmar Remito como Entregado (Encabezado)
 export const queryConfirmarRemito = "call `sp_confirmarRemito`(?,?,?,?,?);";

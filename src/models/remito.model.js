@@ -142,7 +142,8 @@ export const modelBuscarRemitoPreparado = async (parametros) => {
 
 export const modelMostrarRemitoDetallexCod = async (parametros) => {
     const paramsQuery = [
-        parametros.codigoRemito
+        parametros.codigoRemito,
+        parametros.filtro
     ];
 
     try {
@@ -151,7 +152,7 @@ export const modelMostrarRemitoDetallexCod = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoStock, nombreEstiba, nombreZona, nombreBodega, nombreDeposito, sap, nombreProducto, cantidadSolicitada, unidadMedida, lotePlanta, loteProducto, estadoRemitoDetalle }) => ({
+        const data = found ? rows.map(({ codigoStock, nombreEstiba, nombreZona, nombreBodega, nombreDeposito, sap, nombreProducto, cantidadSolicitada, cantidadStock, unidadMedida, lotePlanta, loteProducto, estadoRemitoDetalle }) => ({
             codigoStock,
             nombreEstiba,
             nombreZona,
@@ -160,6 +161,7 @@ export const modelMostrarRemitoDetallexCod = async (parametros) => {
             sap,
             nombreProducto,
             cantidadSolicitada,
+            cantidadStock,
             unidadMedida,
             lotePlanta,
             loteProducto,
