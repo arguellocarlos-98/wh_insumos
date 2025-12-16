@@ -16,6 +16,7 @@ import conversionesRoutes from './conversiones.routes.js';
 import indicadoresRoutes from './indicadores.routes.js';
 import versionsRoutes from './versions.routes.js';
 import subsectoresRoutes from './subsectores.routes.js';
+import sectoresRoutes from './sectores.routes.js';
 
 const router = Router()
 
@@ -35,5 +36,6 @@ router.use(conversionesRoutes);
 router.use(indicadoresRoutes);
 router.use(versionsRoutes);
 router.use(subsectoresRoutes);
+router.use(sectoresRoutes);
 
 export default router
