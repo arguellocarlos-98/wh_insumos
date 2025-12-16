@@ -72,14 +72,14 @@ export const loginUsuario = async (req, res, next) => {
         res.cookie("authToken", authToken, {
             httpOnly: true,
             secure: environment.prod ? true : false,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 60 * 60 * 1000
         });
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             secure: environment.prod ? true : false,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -97,13 +97,13 @@ export const logoutUsuario = (req, res) => {
     res.clearCookie("authToken", {
         httpOnly: true,
         secure: environment.prod ? true : false,
-        sameSite: "strict"
+        sameSite: "none"
     });
 
     res.clearCookie("refreshToken", {
         httpOnly: true,
         secure: environment.prod ? true : false,
-        sameSite: "strict"
+        sameSite: "none"
     });
 
     res.json({
@@ -126,7 +126,7 @@ export const refreshToken = (req, res) => {
         res.cookie("authToken", newAccessToken, {
             httpOnly: true,
             secure: environment.prod ? true : false,
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 60 * 60 * 1000
         });
 

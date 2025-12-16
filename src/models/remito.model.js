@@ -14,6 +14,7 @@ import {
     queryInsertarRemitoDetallePanel,
     queryInsertarRemitoIndicador,
     queryInsertarRemitoPanel,
+    queryListarRemitoSectorial,
     queryMostrarRemitoDetallexCod,
     queryRecibirRemito
 } from "../queries/remitos.queries.js";
@@ -455,6 +456,47 @@ export const modelInsertarRemitoDetalle = async (parametros) => {
             found: true,
             codigoRemitoDetalle
         }
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelListarRemitoSectorial = async (parametros) => {
+    const paramsQuery = [
+        parametros.codigoSucursal,
+        parametros.fechaInicio,
+        parametros.fechaFin,
+        parametros.filtro
+    ];
+
+    try {
+        const result = await listarProcedure(queryListarRemitoSectorial, paramsQuery);
+        if (!result.estado) return result;
+
+        const rows = result.data;
+        const found = result.found;
+
+        const data = found ? rows.map(({ codigoRemito, codigoSubsector, nombreSubsector, nombreSector, fechaRemito, tipoRemito, observacionRemito, preparacionCarga, remitoSalida, entregado, Origen, responsableEntrega, estadoRemito, Usuario }) => ({
+            codigoRemito,
+            codigoSubsector,
+            nombreSubsector,
+            nombreSector,
+            fechaRemito,
+            tipoRemito,
+            observacionRemito,
+            preparacionCarga: preparacionCarga === 1,
+            remitoSalida: remitoSalida ? remitoSalida : "",
+            estado: entregado,
+            responsable: responsableEntrega,
+            Usuario,
+            estadoRemito: estadoRemito === 1
+        })) : [];
+        return {
+            estado: true,
+            found,
+            data
+        };
     } catch (error) {
         Sentry.captureException(error);
         throw error;

@@ -47,3 +47,6 @@ export const queryActualizarRemitoDetalleV2 = "CALL `sp_actualizarRemitoDetalleV
 
 // Insertar Detalle de Remito
 export const queryInsertarRemitoDetallePanel = "CALL `sp_insertarRemitoDetalleV2`(?,?,?,?,?,?);";
+
+// Listar Cargas Preparadas por Fecha
+export const queryListarRemitoSectorial = "CALL `sp_listarRemitoSectorial`(?,?,?,?);";
