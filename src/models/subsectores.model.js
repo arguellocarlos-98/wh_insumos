@@ -10,7 +10,6 @@ export const modelListarSubsector = async (params) => {
 
     try {
         const result = await listarProcedure(queryListarSubsector, paramsQuery);
-
         const rows = result.data;
         const found = result.found;
 

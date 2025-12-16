@@ -351,7 +351,6 @@ export const modelInsertarRemitoPanel = async (params) => {
 const insertarEncabezadoCheck = async (params) => {
     const p = [
         params.codigoSubsector,
-        params.codigoDeposito,
         params.tipoRemito,
         params.numeroPedido,
         params.remitoSalida,

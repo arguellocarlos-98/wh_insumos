@@ -37,7 +37,7 @@ export const queryDescontarStock = "CALL `sp_descontarStock`(?,?,?);";
 export const queryInsertarRemitoPanel = "CALL `sp_insertarRemitoPanel`(?,?,?,?,?,?);";
 
 // Insertar Remito Sectorial  desde el Panel (Encabezado)
-export const queryInsertarRemitoCheck = "CALL `sp_insertarRemitoCheck`(?,?,?,?,?,?,?);";
+export const queryInsertarRemitoCheck = "CALL `sp_insertarRemitoCheck`(?,?,?,?,?,?);";
 
 // Cancelar Remito
 export const queryCancelarRemito = "CALL `sp_cancelarRemito`(?,?);";
