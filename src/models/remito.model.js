@@ -11,7 +11,9 @@ import {
     queryInsertarRemito,
     queryInsertarRemitoCheck,
     queryInsertarRemitoDetalle,
+    queryInsertarRemitoDetalleEntrada,
     queryInsertarRemitoDetallePanel,
+    queryInsertarRemitoEntrada,
     queryInsertarRemitoIndicador,
     queryInsertarRemitoPanel,
     queryListarRemitoSectorial,
@@ -384,6 +386,59 @@ export const modelInsertarRemitoCheck = async (params) => {
             codigoRemito
         };
 
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+const insertarEncabezadoRemitoEntrada = async (params) => {
+    const p = [
+        params.tipoRemito,
+        params.numeroPedido,
+        params.remitoSalida,
+        params.observacionRemito,
+        params.codigoUsuario
+    ];
+    return insertarProcedure(queryInsertarRemitoEntrada, p);
+};
+
+// ------------------------------------------
+// Función para insertar un detalle
+// ------------------------------------------
+const insertarDetalleEntrada = async (codigoRemito, det) => {
+    const detalle_remito = [
+        codigoRemito,
+        det.codigoEstiba,
+        det.codigoProducto,
+        det.lotePlanta,
+        det.loteProducto,
+        det.fechaFabricacion,
+        det.fechaVencimiento,
+        det.documentoSap,
+        det.cantidadEnviada
+    ];
+
+    return insertarProcedure(queryInsertarRemitoDetalleEntrada, detalle_remito);
+};
+
+export const modelInsertarEncabezadoRemitoEntrada = async (parametros) => {
+    try {
+        const encabezado = await insertarEncabezadoRemitoEntrada(parametros);
+        const codigoRemito = encabezado.data[0]?.codigoRemito;
+        if (!codigoRemito) throw new Error("No se obtuvo codigoRemito");
+
+        if (Array.isArray(parametros.detalle) && parametros.detalle.length > 0) {
+            for (const det of parametros.detalle) {
+                const resultDet = await insertarDetalleEntrada(codigoRemito, det);
+                if (!resultDet.estado) return resultDet;
+            }
+        };
+
+        return {
+            estado: true,
+            codigoRemito
+        };
     } catch (error) {
         Sentry.captureException(error);
         throw error;

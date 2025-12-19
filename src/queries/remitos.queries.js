@@ -50,3 +50,9 @@ export const queryInsertarRemitoDetallePanel = "CALL `sp_insertarRemitoDetalleV2
 
 // Listar Cargas Preparadas por Fecha
 export const queryListarRemitoSectorial = "CALL `sp_listarRemitoSectorial`(?,?,?,?);";
+
+// Remitos de Entrada
+// Insertar Remito Entrada
+export const queryInsertarRemitoEntrada = "CALL `sp_insertarRemitoEntrada`(?,?,?,?,?);";
+// Insertar al Stock desde el Remito
+export const queryInsertarRemitoDetalleEntrada = "CALL `sp_insertarRemitoDetalleEntrada`(?,?,?,?,?,?,?,?,?);";
