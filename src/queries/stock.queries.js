@@ -41,3 +41,5 @@ WHERE usuarioInsercion IN (
 `;
 // Buscar Stock por Codigo, Descripcion o Lote
 export const queryBuscarStockDescripcionLote = "CALL `sp_buscarStockxDescripcionLote`(?,?,?);";
+// Listar Vencimientos Proximos por Sucursal diferenciando entre depositos y por cantidad de dias
+export const queryListarStockProximoVencer = "CALL `sp_listarStockProximoVencer`(?,?);";

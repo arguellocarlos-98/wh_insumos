@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { listarProcedure, insertarProcedure, actualizarProcedure, upsertCSV } from "../db/operations.db.js";
-import { queryBuscarStockDescripcionLote, queryDeshabilitarStockPorSucursal, queryEditarStock, queryInsertarStock, queryListarStock, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
+import { queryBuscarStockDescripcionLote, queryDeshabilitarStockPorSucursal, queryEditarStock, queryInsertarStock, queryListarStock, queryListarStockProximoVencer, queryMantenerStock, queryUpsertStockCSV } from "../queries/stock.queries.js";
 import moment from "moment";
 import { capturaError } from "../helpers/capturaError.helper.js";
 
@@ -181,6 +181,43 @@ export const modelBuscarStockDescripcionLote = async (params) => {
             found,
             data
         };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelListarStockProximoVencer = async (parametros) => {
+    const paramsQuery = [
+        parametros.codigoSucursal,
+        parametros.cantidadDia
+    ];
+
+    try {
+        const result = await listarProcedure(queryListarStockProximoVencer, paramsQuery);
+        const rows = result.data;
+        const found = result.found;
+
+        const data = found ? rows.map(({ codigoStock, Deposito, Bodega, Zona, Estiba, SAP, Material, Fabricacion, Vencimiento, diaVencimiento, Cantidad }) => ({
+            codigoStock,
+            Deposito,
+            Bodega,
+            Zona,
+            Estiba,
+            SAP,
+            Material,
+            Fabricacion,
+            Vencimiento,
+            diaVencimiento: parseInt(diaVencimiento),
+            Cantidad: parseInt(Cantidad)
+        })) : [];
+
+        return {
+            estado: true,
+            found,
+            data
+        }
+
     } catch (error) {
         Sentry.captureException(error);
         throw error;

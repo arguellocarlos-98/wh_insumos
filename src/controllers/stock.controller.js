@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 
-import { modelBuscarStockDescripcionLote, modelEditarStock, modelInsertarStock, modelListarStock, modelMantenerStock, modelUpsertStockCSV } from "../models/stock.model.js";
+import { modelBuscarStockDescripcionLote, modelEditarStock, modelInsertarStock, modelListarStock, modelListarStockProximoVencer, modelMantenerStock, modelUpsertStockCSV } from "../models/stock.model.js";
 
 export const listarStock = async (req, res, next) => {
     try {
@@ -63,6 +63,16 @@ export const buscarStockDescripcionLote = async (req, res, next) => {
     try {
         const parametros = req.params;
         const result = await modelBuscarStockDescripcionLote(parametros);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const listarStockProximoVencer = async (req, res, next) => {
+    try {
+        const parametros = req.params;
+        const result = await modelListarStockProximoVencer(parametros);
         res.json(result);
     } catch (error) {
         next(error);
