@@ -60,7 +60,7 @@ export const loginUsuario = async (req, res, next) => {
                 nicknameUsuario: result.data.nicknameUsuario
             },
             keys.SECRET_JWT_KEY,
-            { expiresIn: "1h" }
+            { expiresIn: "12h" }
         );
 
         const refreshToken = jwt.sign(
@@ -73,7 +73,7 @@ export const loginUsuario = async (req, res, next) => {
             httpOnly: true,
             secure: environment.prod ? true : false,
             sameSite: "none",
-            maxAge: 60 * 60 * 1000
+            maxAge: 12 * 60 * 60 * 1000
         });
 
         res.cookie("refreshToken", refreshToken, {
@@ -120,14 +120,14 @@ export const refreshToken = (req, res) => {
         const newAccessToken = jwt.sign(
             { codigoUsuario: decoded.codigoUsuario },
             keys.SECRET_JWT_KEY,
-            { expiresIn: "1h" }
+            { expiresIn: "12" }
         );
 
         res.cookie("authToken", newAccessToken, {
             httpOnly: true,
             secure: environment.prod ? true : false,
             sameSite: "none",
-            maxAge: 60 * 60 * 1000
+            maxAge: 12 * 60 * 60 * 1000
         });
 
         res.json({ estado: true, mensaje: "Access token renovado" });

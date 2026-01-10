@@ -198,7 +198,7 @@ export const modelListarStockProximoVencer = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoStock, Deposito, Bodega, Zona, Estiba, SAP, Material, Fabricacion, Vencimiento, diaVencimiento, Cantidad }) => ({
+        const data = found ? rows.map(({ codigoStock, Deposito, Bodega, Zona, Estiba, SAP, Material, Fabricacion, Vencimiento, diaVencimiento, Cantidad, totalUSD, totalGs, Semaforo }) => ({
             codigoStock,
             Deposito,
             Bodega,
@@ -209,7 +209,10 @@ export const modelListarStockProximoVencer = async (parametros) => {
             Fabricacion,
             Vencimiento,
             diaVencimiento: parseInt(diaVencimiento),
-            Cantidad: parseInt(Cantidad)
+            Cantidad: parseInt(Cantidad),
+            totalUSD,
+            totalGs,
+            Semaforo
         })) : [];
 
         return {
