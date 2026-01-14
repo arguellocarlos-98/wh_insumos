@@ -120,7 +120,7 @@ export const refreshToken = (req, res) => {
         const newAccessToken = jwt.sign(
             { codigoUsuario: decoded.codigoUsuario },
             keys.SECRET_JWT_KEY,
-            { expiresIn: "12" }
+            { expiresIn: "12h" }
         );
 
         res.cookie("authToken", newAccessToken, {
