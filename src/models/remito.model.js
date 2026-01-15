@@ -16,6 +16,7 @@ import {
     queryInsertarRemitoEntrada,
     queryInsertarRemitoIndicador,
     queryInsertarRemitoPanel,
+    queryListarRemitoFull,
     queryListarRemitoSectorial,
     queryMostrarRemitoDetallexCod,
     queryRecibirRemito
@@ -526,7 +527,6 @@ export const modelListarRemitoSectorial = async (parametros) => {
 
     try {
         const result = await listarProcedure(queryListarRemitoSectorial, paramsQuery);
-        if (!result.estado) return result;
 
         const rows = result.data;
         const found = result.found;
@@ -546,6 +546,43 @@ export const modelListarRemitoSectorial = async (parametros) => {
             Usuario,
             estadoRemito: estadoRemito === 1
         })) : [];
+        return {
+            estado: true,
+            found,
+            data
+        };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelListarRemitoFull = async (parametros) => {
+    const paramsQuery = [
+        parametros.codigoSucursal,
+        parametros.fechaInicio,
+        parametros.fechaFin
+    ];
+
+    try {
+        const result = await listarProcedure(queryListarRemitoFull, paramsQuery);
+        const rows = result.data;
+        const found = result.found;
+
+        const data = found ? rows.map(({ codigoRemito, tipoRemito, fechaRemito, numeroPedido, remitoSalida, Origen, responsableEntrega, Destino, responsableRecepcion, observacionRemito, estadoRemito }) => ({
+            codigoRemito,
+            tipoRemito,
+            fechaRemito: moment(fechaRemito).format("YYYY-MM-DD"),
+            numeroPedido,
+            remitoSalida,
+            Origen,
+            responsableEntrega,
+            Destino,
+            responsableRecepcion,
+            observacionRemito,
+            estadoRemito: estadoRemito === 1
+        })) : [];
+
         return {
             estado: true,
             found,

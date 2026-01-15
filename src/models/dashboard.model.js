@@ -61,11 +61,12 @@ export const modelDashboardUltimosRemitos = async (parametros) => {
         const found = result.found;
         const rows = result.data;
 
-        const data = found ? rows.map(({ codigoRemito, tipoRemito, numeroRemito, Responsable }) => ({
+        const data = found ? rows.map(({ codigoRemito, tipoRemito, numeroRemito, Responsable, Estado }) => ({
             codigoRemito,
             tipoRemito,
             numeroRemito,
-            Responsable
+            Responsable,
+            Estado
         })) : [];
 
         return {

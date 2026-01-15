@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { buscarRemitoPreparado, buscarRemitoRecibido, cancelarRemito, editarRemitoDetalle, entregarRemito, insertarRemito, insertarRemitoCheck, insertarRemitoDetalle, insertarRemitoEntrada, insertarRemitoPanel, listarRemitoSectoral, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
+import { buscarRemitoPreparado, buscarRemitoRecibido, cancelarRemito, editarRemitoDetalle, entregarRemito, insertarRemito, insertarRemitoCheck, insertarRemitoDetalle, insertarRemitoEntrada, insertarRemitoPanel, listarRemitoFull, listarRemitoSectoral, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = Router()
@@ -9,6 +9,7 @@ router.get("/remito/sectorial/:codigoSucursal/:fechaInicio/:fechaFin/:filtro", a
 router.get("/remito/preparacion_carga/:codigoSucursal/:fechaInicio/:fechaFin/:filtro", authMiddleware, buscarRemitoPreparado);
 router.get("/remito/recibidos/:codigoSucursal/:fechaInicio/:fechaFin/:filtro", authMiddleware, buscarRemitoRecibido);
 router.get("/remito/preparacion_carga/:codigoRemito/:filtro", authMiddleware, mostrarRemitoDetallexCod);
+router.get("/remito/:codigoSucursal/:fechaInicio/:fechaFin", authMiddleware, listarRemitoFull);
 
 // PETICIONES POST
 router.post("/remito", authMiddleware, insertarRemito);

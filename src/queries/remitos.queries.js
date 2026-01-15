@@ -56,3 +56,6 @@ export const queryListarRemitoSectorial = "CALL `sp_listarRemitoSectorial`(?,?,?
 export const queryInsertarRemitoEntrada = "CALL `sp_insertarRemitoEntrada`(?,?,?,?,?);";
 // Insertar al Stock desde el Remito
 export const queryInsertarRemitoDetalleEntrada = "CALL `sp_insertarRemitoDetalleEntrada`(?,?,?,?,?,?,?,?,?);";
+
+// LISTADO DE REMITOS FULL
+export const queryListarRemitoFull = "CALL `sp_listarRemitoFull`(?,?,?);";
