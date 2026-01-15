@@ -18,6 +18,7 @@ import versionsRoutes from './versions.routes.js';
 import subsectoresRoutes from './subsectores.routes.js';
 import sectoresRoutes from './sectores.routes.js';
 import dashboardRoutes from './dashboard.routes.js';
+import graficosRoutes from './graficos.routes.js';
 
 const router = Router()
 
@@ -39,5 +40,6 @@ router.use(versionsRoutes);
 router.use(subsectoresRoutes);
 router.use(sectoresRoutes);
 router.use(dashboardRoutes);
+router.use(graficosRoutes);
 
 export default router

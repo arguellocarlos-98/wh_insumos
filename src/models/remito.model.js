@@ -569,7 +569,7 @@ export const modelListarRemitoFull = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoRemito, tipoRemito, fechaRemito, numeroPedido, remitoSalida, Origen, responsableEntrega, Destino, responsableRecepcion, observacionRemito, estadoRemito }) => ({
+        const data = found ? rows.map(({ codigoRemito, tipoRemito, fechaRemito, numeroPedido, remitoSalida, Origen, responsableEntrega, Destino, responsableRecepcion, observacionRemito, estadoRemito, Estado }) => ({
             codigoRemito,
             tipoRemito,
             fechaRemito: moment(fechaRemito).format("YYYY-MM-DD"),
@@ -580,7 +580,8 @@ export const modelListarRemitoFull = async (parametros) => {
             Destino,
             responsableRecepcion,
             observacionRemito,
-            estadoRemito: estadoRemito === 1
+            estadoRemito: estadoRemito === 1,
+            Estado
         })) : [];
 
         return {
