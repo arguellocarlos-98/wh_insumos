@@ -88,7 +88,8 @@ export const modelDashboardVencimientoProximo = async (parametros) => {
         const found = result.found;
         const rows = result.data;
 
-        const data = found ? rows.map(({ sap, nombreProducto, Semaforo, Cantidad }) => ({
+        const data = found ? rows.map(({ codigoStock, sap, nombreProducto, Semaforo, Cantidad }) => ({
+            codigoStock,
             SKU: sap,
             Material: nombreProducto,
             Semaforo,
