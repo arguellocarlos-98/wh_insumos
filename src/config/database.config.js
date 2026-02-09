@@ -8,7 +8,5 @@ export const dbConfig = {
   port: environment.db_port,
   connectTimeout: 10000,
   waitForConnections: true,
-  connectionLimit: 150,
-  queueLimit: 0,
   flags: ["+LOCAL_FILES"]
 }

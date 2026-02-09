@@ -33,7 +33,8 @@ export const mostrarProcedure = async (sql, params) => {
 
 export const insertarProcedure = async (sql, params, connection = null) => {
   try {
-    const result = await pool.query(sql, params);
+    const conn = connection || pool;
+    const result = await conn.query(sql, params);
     const esArrayDoble = Array.isArray(result) && Array.isArray(result[0]);
     return {
       estado: true,

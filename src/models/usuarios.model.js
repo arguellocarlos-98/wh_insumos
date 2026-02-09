@@ -16,7 +16,6 @@ export const modelInsertarUsuario = async (parametros) => {
     ];
     try {
         const result = await insertarProcedure(queryInsertarUsuario, bodyParameters);
-        if (!result.estado) return result;
         const codigoUsuario = result.data[0]?.codigoUsuario ?? null;
         return {
             estado: true,
@@ -34,7 +33,6 @@ export const modelLoginUsuario = async (parametros) => {
     ]
     try {
         const result = await mostrarProcedure(queryLoginUsuario, bodyParameters)
-        if (!result.estado) { return result };
         const rows = result.data;
 
         if (!rows) return { estado: true, found: false, data: null };

@@ -42,4 +42,4 @@ router.use(sectoresRoutes);
 router.use(dashboardRoutes);
 router.use(graficosRoutes);
 
-export default router
+export default router;

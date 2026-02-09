@@ -14,8 +14,14 @@ class Pool {
 
   // Query simple
   async query(sql, params = []) {
-    const [rows] = await this.pool.query(sql, params);
-    return rows;
+    try {
+      const [rows] = await this.pool.query(sql, params);
+      return rows;
+    } catch (error) {
+      throw new DatabaseError(
+        `Query fallida: ${error.message} | SQL: ${generarSQLLog(sql, params)}`
+      );
+    }
   }
 
   // Ejecutar callback dentro de una transacción
@@ -45,8 +51,11 @@ class Pool {
   }
 
   async close() {
-    await this.pool.end();
-    this.pool = null;
+    if (this.pool) {
+      await this.pool.end();
+      this.pool = null;
+      Pool.instance = null; // ← Agregar esto
+    }
   }
 }
 
