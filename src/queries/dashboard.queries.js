@@ -10,3 +10,6 @@ export const queryUltimosRemitos = "CALL `sp_dashboardRemitoUltimo`(?);";
 
 // DASHBOARD DE VENCIMIENTOS PROXIMOS LITE
 export const queryDashboardVencimientoProximo = "CALL `sp_dashboardVencimientoProximo`(?);";
+
+// DASHBOARD DE DEPOSITOS
+export const query_sp_dashboardDepositos = "CALL `sp_dashboardDepositos`(?);";

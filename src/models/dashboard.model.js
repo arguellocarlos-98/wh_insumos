@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/node";
 import { listarProcedure, mostrarProcedure } from "../db/operations.db.js";
-import { queryDashboardProdutos, queryDashboardRemito, queryDashboardVencimientoProximo, queryUltimosRemitos } from "../queries/dashboard.queries.js";
+import { query_sp_dashboardDepositos, queryDashboardProdutos, queryDashboardRemito, queryDashboardVencimientoProximo, queryUltimosRemitos } from "../queries/dashboard.queries.js";
 
 export const modelDashboardProductos = async (parametros) => {
     const paramsQuery = [parametros.codigoDeposito];
@@ -88,7 +88,7 @@ export const modelDashboardVencimientoProximo = async (parametros) => {
         const found = result.found;
         const rows = result.data;
 
-        const data = found ? rows.map(({ codigoStock, sap, nombreProducto, Semaforo, Cantidad,fechaVencimiento }) => ({
+        const data = found ? rows.map(({ codigoStock, sap, nombreProducto, Semaforo, Cantidad, fechaVencimiento }) => ({
             codigoStock,
             SKU: sap,
             Material: nombreProducto,
@@ -102,6 +102,33 @@ export const modelDashboardVencimientoProximo = async (parametros) => {
             found,
             data
         };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelDashboardDeposito = async (parametros) => {
+    const paramsQuery = [parametros.codigoSucursal];
+
+    try {
+        const result = await listarProcedure(query_sp_dashboardDepositos, paramsQuery);
+        const found = result.found;
+        const rows = result.data;
+
+        const data = found ? rows.map(({ Deposito, Numero, Lotes, Vencidos, Valorizacion }) => ({
+            Deposito,
+            Numero,
+            Lotes: parseInt(Lotes),
+            Vencidos: parseInt(Vencidos),
+            Valorizacion: parseFloat(Valorizacion)
+        })) : [];
+
+        return {
+            estado: true,
+            found,
+            data
+        }
     } catch (error) {
         Sentry.captureException(error);
         throw error;

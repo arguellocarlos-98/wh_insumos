@@ -1,4 +1,4 @@
-import { modelDashboardProductos, modelDashboardRemito, modelDashboardUltimosRemitos, modelDashboardVencimientoProximo } from "../models/dashboard.model.js";
+import { modelDashboardDeposito, modelDashboardProductos, modelDashboardRemito, modelDashboardUltimosRemitos, modelDashboardVencimientoProximo } from "../models/dashboard.model.js";
 
 export const dashboardProductos = async (req, res, next) => {
     try {
@@ -34,6 +34,16 @@ export const dashboardVencimientoProximo = async (req, res, next) => {
     try {
         const parametros = req.params;
         const result = await modelDashboardVencimientoProximo(parametros);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const dashboardDepositos = async (req, res, next) => {
+    try {
+        const parametros = req.params;
+        const result = await modelDashboardDeposito(parametros);
         res.json(result);
     } catch (error) {
         next(error);
