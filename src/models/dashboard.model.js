@@ -13,7 +13,7 @@ export const modelDashboardProductos = async (parametros) => {
         const data = found ? {
             Cantidad: rows.Cantidad,
             Vencidos: rows.Vencidos,
-            Valorizacion: parseInt(rows.Valorizacion)
+            Valorizacion: parseFloat(rows.Valorizacion)
         } : {};
 
         return {
