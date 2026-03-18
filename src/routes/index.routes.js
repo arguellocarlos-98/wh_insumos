@@ -19,6 +19,7 @@ import subsectoresRoutes from './subsectores.routes.js';
 import sectoresRoutes from './sectores.routes.js';
 import dashboardRoutes from './dashboard.routes.js';
 import graficosRoutes from './graficos.routes.js';
+import trazabilidadRoutes from "./trazabilidad.routes.js";
 
 const router = Router()
 
@@ -41,5 +42,6 @@ router.use(subsectoresRoutes);
 router.use(sectoresRoutes);
 router.use(dashboardRoutes);
 router.use(graficosRoutes);
+router.use(trazabilidadRoutes);
 
 export default router;
