@@ -358,7 +358,8 @@ const insertarEncabezadoCheck = async (params) => {
         params.numeroPedido,
         params.remitoSalida,
         params.observacionRemito,
-        params.codigoUsuario
+        params.codigoUsuario,
+        params.preparacionCarga
     ];
     return insertarProcedure(queryInsertarRemitoCheck, p);
 };
