@@ -121,8 +121,12 @@ export const modelBuscarRemitoPreparado = async (parametros) => {
         const rows = result.data;
         const found = result.found;
 
-        const data = found ? rows.map(({ codigoRemito, fechaRemito, tipoRemito, observacionRemito, preparacionCarga, remitoSalida, entregado, Origen, responsableEntrega, estadoRemito, Usuario }) => ({
+        const data = found ? rows.map(({ codigoRemito, codigoSubsector, nombreSubsector, codigoSector, nombreSector, fechaRemito, tipoRemito, observacionRemito, preparacionCarga, remitoSalida, entregado, Origen, responsableEntrega, estadoRemito, Usuario }) => ({
             codigoRemito,
+            codigoSubsector,
+            nombreSubsector,
+            codigoSector,
+            nombreSector,
             fechaRemito,
             tipoRemito,
             observacionRemito,
