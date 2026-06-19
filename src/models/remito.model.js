@@ -7,6 +7,7 @@ import {
     queryBuscarRemitoRecibido,
     queryCancelarRemito,
     queryConfirmarRemito,
+    queryConfirmarRemitoSectorial,
     queryDescontarStock,
     queryInsertarRemito,
     queryInsertarRemitoCheck,
@@ -593,6 +594,27 @@ export const modelListarRemitoFull = async (parametros) => {
             estado: true,
             found,
             data
+        };
+    } catch (error) {
+        Sentry.captureException(error);
+        throw error;
+    }
+};
+
+export const modelConfirmarSectorial = async (parametros) => {
+    const paramsQuery = [
+        parametros.codigoUsuario,
+        parametros.codigoRemito
+    ];
+
+    try {
+        const result = await actualizarProcedure(queryConfirmarRemitoSectorial, paramsQuery);
+        if (!result.estado) return result;
+
+        return {
+            estado: true,
+            found: result.found,
+            data: result.data
         };
     } catch (error) {
         Sentry.captureException(error);

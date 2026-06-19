@@ -59,3 +59,6 @@ export const queryInsertarRemitoDetalleEntrada = "CALL `sp_insertarRemitoDetalle
 
 // LISTADO DE REMITOS FULL
 export const queryListarRemitoFull = "CALL `sp_listarRemitoFull`(?,?,?);";
+
+// Confirmar Remito Sectorial
+export const queryConfirmarRemitoSectorial = "CALL `sp_confirmarRemitoSectorial`(?,?);";

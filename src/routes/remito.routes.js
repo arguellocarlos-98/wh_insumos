@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { buscarRemitoPreparado, buscarRemitoRecibido, cancelarRemito, editarRemitoDetalle, entregarRemito, insertarRemito, insertarRemitoCheck, insertarRemitoDetalle, insertarRemitoEntrada, insertarRemitoPanel, listarRemitoFull, listarRemitoSectoral, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
+import { buscarRemitoPreparado, buscarRemitoRecibido, cancelarRemito, confirmarSectorial, editarRemitoDetalle, entregarRemito, insertarRemito, insertarRemitoCheck, insertarRemitoDetalle, insertarRemitoEntrada, insertarRemitoPanel, listarRemitoFull, listarRemitoSectoral, mostrarRemitoDetallexCod, recibirRemito } from '../controllers/remito.controller.js';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = Router()
@@ -19,6 +19,7 @@ router.post("/remito/entrada", authMiddleware, insertarRemitoEntrada);
 router.post("/remito/detalle", authMiddleware, insertarRemitoDetalle);
 
 // PETICIONES PATCH
+router.patch("/remito/sectorial/confirmar", authMiddleware, confirmarSectorial);
 router.patch("/remito/entregar", authMiddleware, entregarRemito);
 router.patch("/remito/recibir", authMiddleware, recibirRemito);
 router.patch("/remito/cancelar", authMiddleware, cancelarRemito);
